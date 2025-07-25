@@ -1,0 +1,13 @@
+package com.squid_configurator.squidconfig.services;
+
+import com.squid_configurator.squidconfig.model.AclRule;
+
+public class AclService {
+		
+	public String buildAclLine(AclRule acl) {
+		switch(acl.getAclType()) {
+		case SRC: 
+			return("acl " + acl.getName() + " src " + acl.getValue());
+		}
+	}
+}

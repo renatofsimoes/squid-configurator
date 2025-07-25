@@ -1,0 +1,17 @@
+package com.squid_configurator.squidconfig.model;
+
+public class CacheRule extends Rule{
+	 private CacheDirective directive;
+	    private String value;
+
+	    public CacheRule(String name, CacheDirective directive, String value) {
+	        super(name);
+	        this.directive = directive;
+	        this.value = value;
+	    }
+
+	    @Override
+	    public String generateConfigLine() {
+	        return directive.toString().toLowerCase().replace("_", " ") + " " + value;
+	    }
+}

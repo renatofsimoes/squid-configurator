@@ -1,0 +1,28 @@
+package com.squid_configurator.squidconfig.services;
+
+import com.squid_configurator.squidconfig.model.AclRule;
+
+public class AclService {
+
+	public String buildAclLine(AclRule acl) {
+		String name = ("acl " + acl.getName().trim());
+		String value = acl.getValue();
+		String line;
+		switch (acl.getAclType()) {
+		case DST:
+			line = (name + " dst " + value);
+			break;
+		case DSTDOMAIN:
+			line = (name + "dstdomain " + value);
+			break;
+		case PORT:
+			break;
+		case TIME:
+			break;
+		case URL_REGEX:
+			break;
+		default:
+			break;
+		}
+	}
+}

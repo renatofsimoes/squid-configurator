@@ -1,0 +1,7 @@
+package com.squid_configurator.squidconfig.model;
+
+public class BandWidthRule extends Rule{
+	private BandWidthType type;
+	private String value;
+
+}

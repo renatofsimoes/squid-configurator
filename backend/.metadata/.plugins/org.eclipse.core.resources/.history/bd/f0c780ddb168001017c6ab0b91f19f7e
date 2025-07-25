@@ -1,0 +1,10 @@
+package com.squid_configurator.squidconfig.model;
+
+public enum AclType {
+	DSTDOMAIN,
+    SRC,
+    DST,
+    PORT,
+    METHOD,     
+    TIME   
+}

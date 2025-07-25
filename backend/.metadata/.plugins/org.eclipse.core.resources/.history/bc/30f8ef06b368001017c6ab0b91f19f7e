@@ -1,0 +1,14 @@
+package com.squid_configurator.squidconfig.model;
+
+public class Acl {
+	private AclType type;
+	private String content;
+	
+	
+	
+	public Acl(AclType type, String content) {
+		this.type = type;
+		this.content = content;
+	}
+
+}

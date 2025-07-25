@@ -1,0 +1,16 @@
+package com.squid_configurator.squidconfig.services.enums;
+
+public enum AclServiceAction {
+	ALLOW("allow"),
+	DENY("deny");
+
+	private final String texto;
+
+	AclServiceAction(String texto) {
+		this.texto = texto;
+	}
+
+	public String getText() {
+		return texto;
+	}
+}

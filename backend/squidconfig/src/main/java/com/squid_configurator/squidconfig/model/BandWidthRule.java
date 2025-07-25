@@ -1,0 +1,29 @@
+package com.squid_configurator.squidconfig.model;
+
+import com.squid_configurator.squidconfig.model.enums.BandWidthType;
+
+public class BandWidthRule extends Rule{
+	private BandWidthType type;
+	private String value;
+	
+
+	public BandWidthRule(String name, BandWidthType type, String value) {
+		super(name);
+		this.type = type;
+		this.value = value;
+	}
+	
+	
+	public BandWidthType getType() {
+		return type;
+	}
+	public void setType(BandWidthType type) {
+		this.type = type;
+	}
+	public String getValue() {
+		return value;
+	}
+	public void setValue(String value) {
+		this.value = value;
+	}
+}

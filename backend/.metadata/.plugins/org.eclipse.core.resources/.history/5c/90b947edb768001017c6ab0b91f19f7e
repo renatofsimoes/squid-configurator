@@ -1,0 +1,36 @@
+package com.squid_configurator.squidconfig.model;
+
+public class Acl {
+	
+	private String name;
+	private AclType type;
+	private String content;
+
+	
+	public Acl(String name, AclType type, String content) {
+		this.type = type;
+		this.name = name;
+		this.content = content;
+	}
+
+
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public AclType getType() {
+		return type;
+	}
+	public void setType(AclType type) {
+		this.type = type;
+	}
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+}

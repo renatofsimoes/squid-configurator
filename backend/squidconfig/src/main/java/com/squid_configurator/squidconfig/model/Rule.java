@@ -1,0 +1,17 @@
+package com.squid_configurator.squidconfig.model;
+
+public abstract class Rule {
+    protected String name;
+
+    public Rule(String name) {
+        this.name = name;
+    }
+
+    
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+    	this.name = name;
+    }
+}

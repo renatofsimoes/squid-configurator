@@ -1,0 +1,28 @@
+package com.squid_configurator.squidconfig.model;
+
+import com.squid_configurator.squidconfig.model.enums.AclType;
+
+public class AclRule extends Rule{
+	 private AclType aclType;
+	    private String value;
+
+	    public AclRule(String name, AclType aclType, String value) {
+	        super(name);
+	        this.aclType = aclType;
+	        this.value = value;
+	    }
+	    
+
+	    public AclType getAclType() {
+			return aclType;
+		}
+		public void setAclType(AclType aclType) {
+			this.aclType = aclType;
+		}
+		public String getValue() {
+			return value;
+		}
+		public void setValue(String value) {
+			this.value = value;
+		}
+}

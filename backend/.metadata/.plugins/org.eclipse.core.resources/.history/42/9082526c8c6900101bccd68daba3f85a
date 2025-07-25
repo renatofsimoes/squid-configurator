@@ -1,0 +1,11 @@
+package com.squid_configurator.squidconfig.services.enums;
+
+public enum AclServiceDirective {
+	HTTP_ACCESS,
+	HTTP_REPLY_ACCESS,
+	CACHE,
+	CACHE_DENY,
+	DELAY_ACCESS,
+	URL_REWRITE_ACCESS,
+	ACCESS_LOG
+}

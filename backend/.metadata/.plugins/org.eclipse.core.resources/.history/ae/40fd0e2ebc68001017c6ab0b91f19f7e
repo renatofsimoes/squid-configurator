@@ -1,0 +1,11 @@
+package com.squid_configurator.squidconfig.model;
+
+public enum CacheType {
+	CACHE_MEM,
+	CACHE_DIR,
+	MAXIMUM_OBJECT_SIZE,
+	MINIMUM_OBJECT_SIZE,
+	REFRESH_PATTERN,
+	CACHE_SWAP_LOW,
+	CACHE_SWAP_HIGH
+}

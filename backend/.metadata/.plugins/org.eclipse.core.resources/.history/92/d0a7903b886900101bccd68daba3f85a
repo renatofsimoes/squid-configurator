@@ -1,0 +1,51 @@
+package com.squid_configurator.squidconfig.services;
+
+import com.squid_configurator.squidconfig.model.AclRule;
+
+public class AclService {
+
+	public String buildAclLine(AclRule acl) {
+		String name = "acl " + acl.getName().trim();
+		String value = acl.getValue();
+		String line = null;
+		switch (acl.getAclType()) {
+		case SRC:
+			line = (name + " src " + value);
+			break;
+		case DST:
+			line = (name + " dst " + value);
+			break;
+		case DSTDOMAIN:
+			line = (name + " dstdomain " + value);
+			break;
+		case PORT:
+			line = (name + " port " + value);
+			break;
+		case TIME:
+			line = (name + " time MTWHF " + value);
+			break;
+		case URL_REGEX:
+			line = (name + " url_regex -i " + value);
+			break;
+		default:
+			break;
+		}
+		return line;
+	}
+	
+	
+	public String addAclValue(String line, String value) {
+		return line + " " + value;
+	}
+	
+	public String removeAclValue(String line, String value) {
+		StringBuilder resultado = new StringBuilder();
+		String[] palavras = line.trim().split("\\s+");
+		
+		for (String line : line) {
+            if (!val.equals(palavraParaRemover)) {
+                resultado.append(palavra).append(" ");
+            }
+        }
+	}
+}
