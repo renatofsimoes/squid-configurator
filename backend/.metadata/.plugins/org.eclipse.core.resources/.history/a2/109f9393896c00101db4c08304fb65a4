@@ -1,0 +1,108 @@
+package com.squid_configurator.squidconfig.file_editors;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import com.squid_configurator.squidconfig.model.Acl;
+import com.squid_configurator.squidconfig.model.enums.AclType;
+import com.squid_configurator.squidconfig.services.enums.AclServiceAction;
+import com.squid_configurator.squidconfig.services.enums.AclServiceDirective;
+
+public class AclFileEditorTest {
+
+    private Path tempFile;
+    private AclFileEditor editor;
+
+    @BeforeEach
+    void setup() throws IOException {
+        tempFile = Files.createTempFile("squid", ".conf");
+        editor = new AclFileEditor(tempFile);
+    }
+
+    @AfterEach
+    void cleanup() throws IOException {
+        Files.deleteIfExists(tempFile);
+    }
+
+    @Test
+    void testAddAcl_shouldWriteCorrectLine() throws IOException {
+        Acl acl = new Acl("aclTeste", AclType.SRC, "192.168.0.1");
+        editor.addAcl(acl);
+
+        List<String> lines = Files.readAllLines(tempFile);
+        assertTrue(lines.contains("acl aclTeste src 192.168.0.1"));
+    }
+
+    @Test
+    void testAddDuplicateAcl_shouldThrowException() throws IOException {
+        Acl acl = new Acl("duplicada", AclType.DST, "10.0.0.1");
+        editor.addAcl(acl);
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            editor.addAcl(acl);
+        });
+
+        assertEquals("ACL com nome 'duplicada' já existe.", exception.getMessage());
+    }
+
+    @Test
+    void testAddAndRemoveValue() throws IOException {
+        Acl acl = new Acl("range", AclType.SRC, "192.168.1.0/24");
+        editor.addAcl(acl);
+        editor.addAclValue("range", "192.168.2.0/24");
+
+        List<String> updated = Files.readAllLines(tempFile);
+        assertTrue(updated.get(0).contains("192.168.1.0/24"));
+        assertTrue(updated.get(0).contains("192.168.2.0/24"));
+
+        editor.removeAclValue("range", "192.168.1.0/24");
+
+        List<String> afterRemove = Files.readAllLines(tempFile);
+        assertFalse(afterRemove.get(0).contains("192.168.1.0/24"));
+        assertTrue(afterRemove.get(0).contains("192.168.2.0/24"));
+    }
+
+    @Test
+    void testAddDirective() throws IOException {
+        Acl acl = new Acl("admin", AclType.URL_REGEX, ".*admin.*");
+        editor.addAcl(acl);
+        editor.addAclDirective("admin", AclServiceDirective.HTTP_ACCESS, AclServiceAction.ALLOW);
+
+        List<String> lines = Files.readAllLines(tempFile);
+        assertTrue(lines.contains("http_access allow admin"));
+    }
+
+    @Test
+    void testRemoveDirective() throws IOException {
+        Acl acl = new Acl("logado", AclType.DSTDOMAIN, ".empresa.com");
+        editor.addAcl(acl);
+        editor.addAclDirective("logado", AclServiceDirective.HTTP_ACCESS, AclServiceAction.DENY);
+
+        editor.removeAclDirective("logado", AclServiceDirective.HTTP_ACCESS, AclServiceAction.DENY);
+
+        List<String> lines = Files.readAllLines(tempFile);
+        assertFalse(lines.contains("http_access deny logado"));
+    }
+
+    @Test
+    void testRemoveAcl() throws IOException {
+        Acl acl = new Acl("temporal", AclType.TIME, "08:00-18:00");
+        editor.addAcl(acl);
+        editor.addAclDirective("temporal", AclServiceDirective.HTTP_ACCESS, AclServiceAction.ALLOW);
+
+        editor.removeAclByName("temporal");
+
+        List<String> lines = Files.readAllLines(tempFile);
+        assertTrue(lines.isEmpty());
+    }
+}

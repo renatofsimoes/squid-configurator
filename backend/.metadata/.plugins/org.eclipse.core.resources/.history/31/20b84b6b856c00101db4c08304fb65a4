@@ -1,0 +1,18 @@
+package com.squid_configurator.squidconfig.services;
+
+import org.junit.jupiter.api.BeforeEach;
+
+public class BandWidthServiceTest {
+	private BandWidthService service;
+	
+	@BeforeEach
+	void setUp() {
+		service = new BandWidthService();
+	}
+	
+	@Test
+	void buildBandWidthLineTest() {
+		BandWidthRule rule = new BandWidthRule()
+	}
+
+}

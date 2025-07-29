@@ -2,12 +2,11 @@ package com.squid_configurator.squidconfig.model;
 
 import com.squid_configurator.squidconfig.model.enums.CacheType;
 
-public class CacheRule extends Rule {
+public class CacheRule{
 	private CacheType type;
 	private String value;
 
-	public CacheRule(String name, CacheType type, String value) {
-		super(name);
+	public CacheRule(CacheType type, String value) {
 		this.type = type;
 		this.value = value;
 	}

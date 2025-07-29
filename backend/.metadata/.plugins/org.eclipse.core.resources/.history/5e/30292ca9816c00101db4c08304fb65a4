@@ -1,0 +1,13 @@
+package com.squid_configurator.squidconfig.services;
+
+import org.junit.jupiter.api.BeforeEach;
+
+public class AclServiceTest {
+	private AclService aclService;
+	
+	@BeforeEach
+	void SetUp{
+		aclService = new AclService();
+    }
+
+}

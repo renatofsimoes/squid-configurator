@@ -1,12 +1,12 @@
 package com.squid_configurator.squidconfig.services;
 
-import com.squid_configurator.squidconfig.model.AclRule;
+import com.squid_configurator.squidconfig.model.Acl;
 import com.squid_configurator.squidconfig.services.enums.AclServiceAction;
 import com.squid_configurator.squidconfig.services.enums.AclServiceDirective;
 
 public class AclService {
 
-	public String buildAclLine(AclRule acl) {
+	public String buildAclLine(Acl acl) {
 		String name = "acl " + acl.getName().trim();
 		String value = acl.getValue();
 		switch (acl.getAclType()) {

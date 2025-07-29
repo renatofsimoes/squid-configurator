@@ -2,13 +2,12 @@ package com.squid_configurator.squidconfig.model;
 
 import com.squid_configurator.squidconfig.model.enums.BandWidthType;
 
-public class BandWidthRule extends Rule{
+public class BandWidthRule{
 	private BandWidthType type;
 	private String value;
 	
 
-	public BandWidthRule(String name, BandWidthType type, String value) {
-		super(name);
+	public BandWidthRule(BandWidthType type, String value) {
 		this.type = type;
 		this.value = value;
 	}

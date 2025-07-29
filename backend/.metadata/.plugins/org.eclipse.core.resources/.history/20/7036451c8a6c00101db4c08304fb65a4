@@ -1,0 +1,60 @@
+package com.squid_configurator.squidconfig.services;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import com.squid_configurator.squidconfig.model.Acl;
+import com.squid_configurator.squidconfig.model.enums.AclType;
+import com.squid_configurator.squidconfig.services.enums.AclServiceAction;
+import com.squid_configurator.squidconfig.services.enums.AclServiceDirective;
+
+public class AclServiceTest {
+	private AclService aclService;
+	
+	@BeforeEach
+	void SetUp(){
+		aclService = new AclService();
+    }
+	
+	@Test
+    void testBuildAclLine_SRC() {
+        Acl rule = new Acl("minhaAcl", AclType.SRC, "192.168.1.1");
+        String result = aclService.buildAclLine(rule);
+        assertEquals("acl minhaAcl src 192.168.1.1", result);
+    }
+
+    @Test
+    void testAddAclLineValue() {
+        String line = "acl minhaAcl src 192.168.1.1";
+        String result = aclService.addAclLineValue(line, "192.168.1.2");
+        assertEquals("acl minhaAcl src 192.168.1.1 192.168.1.2", result);
+    }
+
+    @Test
+    void testRemoveAclLineValue() {
+        String line = "acl minhaAcl src 192.168.1.1 192.168.1.2";
+        String result = aclService.removeAclLineValue(line, "192.168.1.1");
+        assertEquals("acl minhaAcl src 192.168.1.2", result);
+    }
+
+    @Test
+    void testBuildAclDirectiveLine_HttpAccessAllow() {
+        String result = aclService.buildAclDirectiveLine("minhaAcl", AclServiceDirective.HTTP_ACCESS, AclServiceAction.ALLOW);
+        assertEquals("http_access allow minhaAcl", result);
+    }
+
+    @Test
+    void testBuildAclDirectiveLine_Cache() {
+        String result = aclService.buildAclDirectiveLine("minhaAcl", AclServiceDirective.CACHE, null);
+        assertEquals("cache minhaAcl", result);
+    }
+
+    @Test
+    void testBuildAclDirectiveLine_AccessLog() {
+        String result = aclService.buildAclDirectiveLine("minhaAcl", AclServiceDirective.ACCESS_LOG, null);
+        assertEquals("access_log /var/log/squid/access.log squid minhaAcl", result);
+    }
+
+}

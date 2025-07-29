@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="CacheServiceTest" project="squidconfig" tests="1" started="1" failures="0" errors="0" ignored="0">
+  <testsuite name="com.squid_configurator.squidconfig.services.CacheServiceTest" time="0.0" displayname="CacheServiceTest" uniqueid="[engine:junit-jupiter]/[class:com.squid_configurator.squidconfig.services.CacheServiceTest]">
+    <testcase name="buildBandWidthLineTest" classname="com.squid_configurator.squidconfig.services.CacheServiceTest" time="0.0" displayname="buildBandWidthLineTest()" uniqueid="[engine:junit-jupiter]/[class:com.squid_configurator.squidconfig.services.CacheServiceTest]/[method:buildBandWidthLineTest()]"/>
+  </testsuite>
+</testrun>
