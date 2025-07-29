@@ -1,0 +1,22 @@
+package com.squid_configurator.squidconfig.services;
+
+import com.squid_configurator.squidconfig.model.BandWidthRule;
+
+public class BandWidthService {
+
+	public String buildBandWidthLine(BandWidthRule rule) {
+		String value = rule.getValue();
+		switch (rule.getType()) {
+		case DELAY_POOLS:
+			return "delay_pools " + value;
+		case DELAY_CLASS:
+			return "delay_class " + value;
+		case DELAY_ACCESS:
+			return "delay_access " + value;
+		case DELAY_PARAMETERS:
+			return "delay_parameters " + value;
+		default:
+			throw new IllegalArgumentException("Tipo de regra de Largura de Banda não suportado: " + rule.getType());
+		}
+	}
+}

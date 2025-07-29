@@ -6,7 +6,6 @@ public class User {
 	
 	
 	public User(String name, String password) {
-		super();
 		this.name = name;
 		this.password = password;
 	}

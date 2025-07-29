@@ -1,0 +1,128 @@
+package com.squid_configurator.squidconfig.services.utils;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import com.squid_configurator.squidconfig.model.AclRule;
+import com.squid_configurator.squidconfig.services.AclService;
+import com.squid_configurator.squidconfig.services.enums.AclServiceAction;
+import com.squid_configurator.squidconfig.services.enums.AclServiceDirective;
+
+public class SquidConfFileEditor {
+
+	private final Path configFilePath;
+	private final AclService aclService = new AclService();
+
+	public SquidConfFileEditor(String configFilePath) {
+		this.configFilePath = Paths.get(configFilePath);
+	}
+
+	private List<String> readFile() throws IOException {
+		return Files.readAllLines(configFilePath);
+	}
+
+	private void writeConfigLines(List<String> lines) throws IOException {
+		Files.write(configFilePath, lines);
+	}
+
+	
+	public void addAcl(AclRule aclRule) throws IOException {
+		String newLine = aclService.buildAclLine(aclRule);
+		List<String> lines = readFile();
+		boolean exists = lines.stream().anyMatch(line -> line.startsWith("acl " + aclRule.getName() + " "));
+		if (!exists) {
+			lines.add(newLine);
+			writeConfigLines(lines);
+		} else {
+			throw new IllegalArgumentException("ACL com nome '" + aclRule.getName() + "' já existe.");
+		}
+	}
+
+	public void removeAclByName(String aclName) throws IOException {
+	    List<String> lines = readFile();
+	    List<String> filtered = new ArrayList<>();
+	    boolean aclFound = false;
+	    for (String line : lines) {
+	        if (line.startsWith("acl " + aclName + " ")) {
+	            aclFound = true;
+	            continue;
+	        }
+	        filtered.add(line);
+	    }
+	    if (!aclFound) {
+	        throw new IllegalArgumentException("ACL com nome '" + aclName + "' não encontrada no arquivo.");
+	    }
+	    writeConfigLines(filtered);
+	    removeAllAclDirectivesByName(aclName);
+	}
+
+
+	public void addAclValue(String aclName, String newValue) throws IOException {
+		List<String> lines = readFile();
+		List<String> updatedLines = new ArrayList<>();
+		boolean aclFound = false;
+		for (String line : lines) {
+			if (line.startsWith("acl " + aclName + " ")) {
+				String editedLine = aclService.addAclLineValue(line, newValue);
+				updatedLines.add(editedLine);
+				aclFound = true;
+			} else {
+				updatedLines.add(line);
+			}
+		}
+		if (!aclFound) {
+			throw new IllegalArgumentException("ACL com nome '" + aclName + "' não encontrada no arquivo.");
+		}
+		writeConfigLines(updatedLines);
+	}
+	public void removeAclValue(String aclName, String valueToRemove) throws IOException {
+		List<String> lines = readFile();
+		List<String> updatedLines = new ArrayList<>();
+		boolean aclFound = false;
+		for (String line : lines) {
+			if (line.startsWith("acl " + aclName + " ")) {
+				String editedLine = aclService.removeAclLineValue(line, valueToRemove);
+				if (!editedLine.trim().equals("acl " + aclName)) {
+					updatedLines.add(editedLine);
+				}
+				aclFound = true;
+			} else {
+				updatedLines.add(line);
+			}
+		}
+		if (!aclFound) {
+			throw new IllegalArgumentException("ACL com nome '" + aclName + "' não encontrada no arquivo.");
+		}
+		writeConfigLines(updatedLines);
+	}
+	
+
+	public void addAclDirective(String aclName, AclServiceDirective directive, AclServiceAction action)
+	        throws IOException {
+	    String newLine = aclService.buildAclDirectiveLine(aclName, directive, action);
+	    List<String> lines = readFile();
+	    boolean directiveExistsForAcl = lines.stream().anyMatch(line ->
+	            line.startsWith(directive.getText() + " ") &&
+	            line.trim().endsWith(" " + aclName)
+	    );
+	    if (directiveExistsForAcl) {
+	        throw new IllegalArgumentException("Já existe uma diretiva '" + directive.getText()
+	                + "' aplicada à ACL '" + aclName + "', não é permitido adicionar outra.");
+	    }
+	    lines.add(newLine);
+	    writeConfigLines(lines);
+	}
+
+
+	public void removeAllAclDirectivesByName(String aclName) throws IOException {
+		List<String> lines = readFile();
+		List<String> filtered = lines.stream().filter(line -> !line.matches(".*\\b" + aclName + "\\b.*"))
+				.collect(Collectors.toList());
+		writeConfigLines(filtered);
+	}
+}

@@ -4,11 +4,13 @@
 	<section name="java.lang.Class">
 		<item key="replaceBarOpen" value="true"/>
 		<list key="findhistory">
+			<item value="readConfigLines"/>
 			<item value="Directive"/>
 			<item value="CacheDirective"/>
 			<item value="content"/>
 		</list>
 		<list key="replacehistory">
+			<item value="readFile"/>
 			<item value="type"/>
 			<item value="CacheType"/>
 			<item value="name"/>

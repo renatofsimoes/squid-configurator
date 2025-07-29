@@ -43,7 +43,7 @@ public class AclService {
 		return resultado.toString().trim();
 	}
 
-	public String buildAclLineDirective(String aclName, AclServiceDirective directive, AclServiceAction action) {
+	public String buildAclDirectiveLine(String aclName, AclServiceDirective directive, AclServiceAction action) {
 		switch (directive) {
 		case HTTP_ACCESS:
 		case HTTP_REPLY_ACCESS:

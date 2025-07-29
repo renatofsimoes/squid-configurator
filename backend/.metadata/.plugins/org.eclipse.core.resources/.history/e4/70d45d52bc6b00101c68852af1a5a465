@@ -1,0 +1,86 @@
+package com.squid_configurator.squidconfig.services.utils;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import com.squid_configurator.squidconfig.model.AclRule;
+import com.squid_configurator.squidconfig.services.AclService;
+import com.squid_configurator.squidconfig.services.enums.AclServiceAction;
+import com.squid_configurator.squidconfig.services.enums.AclServiceDirective;
+
+public class SquidConfFileEditor {
+
+	private final Path configFilePath;
+	private final AclService aclService = new AclService();
+
+	public SquidConfFileEditor(String configFilePath) {
+	        this.configFilePath = Paths.get(configFilePath);
+	    }
+
+	// === Lê o conteúdo do arquivo squid.conf ===
+	private List<String> readConfigLines() throws IOException {
+		return Files.readAllLines(configFilePath);
+	}
+
+	// === Escreve o conteúdo atualizado no arquivo ===
+	private void writeConfigLines(List<String> lines) throws IOException {
+		Files.write(configFilePath, lines);
+	}
+
+	// === Adiciona uma ACL ===
+	public void addAcl(AclRule aclRule) throws IOException {
+		String newLine = aclService.buildAclLine(aclRule);
+		List<String> lines = readConfigLines();
+
+		// Evita duplicação
+		if (!lines.contains(newLine)) {
+			lines.add(newLine);
+			writeConfigLines(lines);
+		}
+	}
+
+	// === Remove uma ACL pelo nome ===
+	public void removeAclByName(String aclName) throws IOException {
+		List<String> lines = readConfigLines();
+		List<String> filtered = lines.stream().filter(line -> !line.startsWith("acl " + aclName + " "))
+				.collect(Collectors.toList());
+		writeConfigLines(filtered);
+	}
+
+	// === Edita uma ACL ===
+	public void editAcl(AclRule aclRule) throws IOException {
+		removeAclByName(aclRule.getName());
+		addAcl(aclRule);
+	}
+
+	// === Adiciona uma diretiva de ACL (ex: http_access allow minha_acl) ===
+	public void addAclDirective(String aclName, AclServiceDirective directive, AclServiceAction action)
+			throws IOException {
+		String newLine = aclService.buildAclDirectiveLine(aclName, directive, action);
+		List<String> lines = readConfigLines();
+
+		if (!lines.contains(newLine)) {
+			lines.add(newLine);
+			writeConfigLines(lines);
+		}
+	}
+
+	// === Remove diretivas de ACL associadas a um nome específico ===
+	public void removeAclDirectivesByName(String aclName) throws IOException {
+		List<String> lines = readConfigLines();
+		List<String> filtered = lines.stream().filter(line -> !line.matches(".*\\b" + aclName + "\\b.*"))
+				.collect(Collectors.toList());
+		writeConfigLines(filtered);
+	}
+
+	// === Edita uma diretiva (remove e adiciona nova) ===
+	public void editAclDirective(String aclName, AclServiceDirective directive, AclServiceAction action)
+			throws IOException {
+		removeAclDirectivesByName(aclName);
+		addAclDirective(aclName, directive, action);
+	}
+}

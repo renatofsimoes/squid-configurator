@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename package &apos;utils&apos; to &apos;com.squid_configurator.squidconfig.services.utils&apos;&#x0D;&#x0A;- Original project: &apos;squidconfig&apos;&#x0D;&#x0A;- Original element: &apos;squidconfig/src/main/java/utils&apos;&#x0D;&#x0A;- Renamed element: &apos;squidconfig/src/main/java/com.squid_configurator.squidconfig.services.utils&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename package &apos;utils&apos;" flags="589830" hierarchical="false" id="org.eclipse.jdt.ui.rename.package" input="/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;utils" name="com.squid_configurator.squidconfig.services.utils" qualified="false" references="true" stamp="1753711582889" textual="false" version="1.0"/>
+</session>

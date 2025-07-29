@@ -1,0 +1,28 @@
+package com.squid_configurator.squidconfig.services;
+
+import com.squid_configurator.squidconfig.model.CacheRule;
+
+public class CacheService {
+
+	public String buildCacheLine(CacheRule rule) {
+		String value = rule.getValue();
+		switch (rule.getType()) {
+		case CACHE_MEM:
+			return "cache_mem " + value;
+		case CACHE_DIR:
+			return "cache_dir " + value;
+		case MAXIMUM_OBJECT_SIZE:
+			return "maximum_object_size " + value;
+		case MINIMUM_OBJECT_SIZE:
+			return "minimum_object_size " + value;
+		case REFRESH_PATTERN:
+			return "refresh_pattern " + value;
+		case CACHE_SWAP_LOW:
+			return "cache_swap_low " + value;
+		case CACHE_SWAP_HIGH:
+			return "cache_swap_high " + value;
+		default:
+			throw new IllegalArgumentException("Tipo de regra de Cache não suportado: " + rule.getType());
+		}
+	}
+}
