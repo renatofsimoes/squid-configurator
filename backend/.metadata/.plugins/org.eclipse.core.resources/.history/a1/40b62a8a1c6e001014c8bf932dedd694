@@ -1,0 +1,118 @@
+package com.squid_configurator.squidconfig.utils;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import com.squid_configurator.squidconfig.model.CacheRule;
+import com.squid_configurator.squidconfig.model.enums.CacheType;
+
+public class CacheFileEditorTest {
+
+    private Path tempFile;
+    private CacheFileEditor editor;
+
+    @BeforeEach
+    void setup() throws IOException {
+        tempFile = Files.createTempFile("squid_cache", ".conf");
+        editor = new CacheFileEditor(tempFile);
+    }
+
+    @AfterEach
+    void cleanup() throws IOException {
+        Files.deleteIfExists(tempFile);
+    }
+
+    @Test
+    void testAddCacheRule() throws IOException {
+        CacheRule rule = new CacheRule(CacheType.CACHE_MEM, "256 MB");
+        editor.addCacheRule(rule);
+
+        List<String> lines = Files.readAllLines(tempFile);
+        assertTrue(lines.contains("cache_mem 256 MB"));
+    }
+
+    @Test
+    void testAddDuplicateCacheRuleThrows() throws IOException {
+        CacheRule rule = new CacheRule(CacheType.CACHE_MEM, "256 MB");
+        editor.addCacheRule(rule);
+
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> {
+            editor.addCacheRule(rule);
+        });
+        assertEquals("Regra já existe no arquivo.", ex.getMessage());
+    }
+
+    @Test
+    void testAddMultipleCacheDirRulesAllowed() throws IOException {
+        CacheRule rule1 = new CacheRule(CacheType.CACHE_DIR, "1 /var/spool/squid 100 16 256");
+        CacheRule rule2 = new CacheRule(CacheType.CACHE_DIR, "2 /var/spool/squid2 100 16 256");
+
+        editor.addCacheRule(rule1);
+        editor.addCacheRule(rule2);
+
+        List<String> lines = Files.readAllLines(tempFile);
+        assertTrue(lines.contains("cache_dir 1 /var/spool/squid 100 16 256"));
+        assertTrue(lines.contains("cache_dir 2 /var/spool/squid2 100 16 256"));
+    }
+
+    @Test
+    void testRemoveCacheRule() throws IOException {
+        CacheRule rule = new CacheRule(CacheType.CACHE_MEM, "512 MB");
+        editor.addCacheRule(rule);
+
+        editor.removeCacheRule(rule);
+        List<String> lines = Files.readAllLines(tempFile);
+        assertFalse(lines.contains("cache_mem 512 MB"));
+    }
+
+    @Test
+    void testRemoveNonexistentCacheRuleThrows() {
+        CacheRule rule = new CacheRule(CacheType.CACHE_MEM, "1 GB");
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> {
+            editor.removeCacheRule(rule);
+        });
+        assertEquals("Regra de cache não encontrada no arquivo.", ex.getMessage());
+    }
+
+    @Test
+    void testInsertionOrderAfterAclsAndDelays() throws IOException {
+        // Preparar arquivo com linhas de ACL e delay
+        Files.write(tempFile, List.of(
+            "acl localnet src 192.168.0.0/16",
+            "http_access allow localnet",
+            "delay_pools 1",
+            "delay_class 1 2",
+            "delay_parameters 1 5000/5000"
+        ));
+
+        CacheRule memRule = new CacheRule(CacheType.CACHE_MEM, "128 MB");
+        CacheRule dirRule = new CacheRule(CacheType.CACHE_DIR, "1 /var/cache/squid 100 16 256");
+
+        editor.addCacheRule(memRule);
+        editor.addCacheRule(dirRule);
+
+        List<String> lines = Files.readAllLines(tempFile);
+
+        // Verifica que cache_mem foi inserido depois das linhas ACL/delay
+        int aclIndex = lines.indexOf("http_access allow localnet");
+        int delayIndex = lines.indexOf("delay_parameters 1 5000/5000");
+        int memIndex = lines.indexOf("cache_mem 128 MB");
+        int dirIndex = lines.indexOf("cache_dir 1 /var/cache/squid 100 16 256");
+
+        assertTrue(memIndex > delayIndex);
+        assertTrue(dirIndex > delayIndex);
+        assertTrue(memIndex > aclIndex);
+    }
+}
+

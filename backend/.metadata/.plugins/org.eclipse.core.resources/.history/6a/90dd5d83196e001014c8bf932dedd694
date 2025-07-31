@@ -1,0 +1,60 @@
+package com.squid_configurator.squidconfig.utils;
+
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.List;
+
+import com.squid_configurator.squidconfig.model.CacheRule;
+import com.squid_configurator.squidconfig.services.CacheService;
+
+public class CacheFileEditor extends SquidConfFileEditor {
+
+    private final CacheService cacheService = new CacheService();
+
+    public CacheFileEditor(Path configFilePath) {
+        super(configFilePath);
+    }
+
+    public void addCacheRule(CacheRule rule) throws IOException {
+        String newLine = cacheService.buildCacheLine(rule);
+        List<String> lines = readFile();
+
+        if (lines.contains(newLine)) {
+            throw new IllegalArgumentException("Regra já existe no arquivo.");
+        }
+
+        int insertIndex = findInsertionIndex(lines);
+        lines.add(insertIndex, newLine);
+        writeConfigLines(lines);
+    }
+
+    public void removeCacheRule(CacheRule rule) throws IOException {
+        String targetLine = cacheService.buildCacheLine(rule);
+        List<String> lines = readFile();
+
+        boolean removed = lines.removeIf(line -> line.trim().equals(targetLine));
+        if (!removed) {
+            throw new IllegalArgumentException("Regra de cache não encontrada no arquivo.");
+        }
+
+        writeConfigLines(lines);
+    }
+
+    private int findInsertionIndex(List<String> lines) {
+        int index = 0;
+        for (int i = 0; i < lines.size(); i++) {
+            String line = lines.get(i).trim();
+
+            if (line.startsWith("acl ") || line.startsWith("http_access ") ||
+                line.startsWith("http_reply_access ") || line.startsWith("url_rewrite_access ") ||
+                line.startsWith("delay_access ") || line.startsWith("cache ") || 
+                line.startsWith("cache_deny ") || line.startsWith("access_log ") ||
+                line.startsWith("delay_pools ") || line.startsWith("delay_class ") ||
+                line.startsWith("delay_parameters ")) {
+                index = i + 1;
+            }
+        }
+        return index;
+    }
+}
+

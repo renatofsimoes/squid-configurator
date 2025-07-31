@@ -20,4 +20,11 @@ public class SquidConfFileEditor {
 	protected void writeConfigLines(List<String> lines) throws IOException {
 		Files.write(configFilePath, lines);
 	}
+	
+	protected void validateLineNotExists(List<String> lines, String newLine) {
+	    if (lines.contains(newLine)) {
+	        throw new IllegalArgumentException("Regra já existe no arquivo.");
+	    }
+	}
+
 }

@@ -5,11 +5,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import com.squid_configurator.squidconfig.model.Acl;
-import com.squid_configurator.squidconfig.model.enums.AclType;
-import com.squid_configurator.squidconfig.services.enums.AclServiceAction;
-import com.squid_configurator.squidconfig.services.enums.AclServiceDirective;
+import com.squid_configurator.squidconfig.model.CacheRule;
+import com.squid_configurator.squidconfig.model.enums.CacheType;
 import com.squid_configurator.squidconfig.utils.AclFileEditor;
+import com.squid_configurator.squidconfig.utils.BandWidthFileEditor;
+import com.squid_configurator.squidconfig.utils.CacheFileEditor;
 
 public class Main {
 
@@ -22,9 +22,11 @@ public class Main {
 			}
 
 			AclFileEditor editor = new AclFileEditor(configPath);
+			BandWidthFileEditor bandWidthEditor = new BandWidthFileEditor(configPath);
+			CacheFileEditor cacheEditor = new CacheFileEditor(configPath);
 
 //			// Adicionar uma ACL
-//			Acl acl = new Acl("rede_local", AclType.SRC, "192.168.1.0/24");
+//			Acl acl = new Acl("working_hours", AclType.TIME, "08:00-18:00");
 //			editor.addAcl(acl);
 //			System.out.println("ACL adicionada com sucesso!");
 //			
@@ -33,18 +35,36 @@ public class Main {
 //			Acl newAcl = new Acl("blocked_sites", AclType.DSTDOMAIN, ".facebook.com");
 //			editor.addAcl(newAcl);
 //			System.out.println("ACL adicionada com sucesso!");
-//			
-//			
+			
+//			// Adicionar regra de largura de handa
+//			BandWidthRule rule = new BandWidthRule(BandWidthType.DELAY_CLASS, "1 1");
+//			bandWidthEditor.addBandWidthRule(rule);
+//			System.out.println("Regra de Largura de banda adicionada com sucesso!");
+			
+			// Adicionar regra de cache
+			CacheRule rule = new CacheRule(CacheType.CACHE_MEM, "128 MB");
+			cacheEditor.addCacheRule(rule);
+			System.out.println("Regra de Cache adicionada com sucesso!");
+
+//			//Remover regras de largura de banda por um pool id
+//			bandWidthEditor.removeBandWidthRulesByPool("1");
+//			System.out.println("Regras relacionadas a pool removidas!");
+
+//			//Remover regra de cache
+//			CacheRule rule = new CacheRule(CacheType.CACHE_MEM, "256 MB");
+//			cacheEditor.removeCacheRule(rule);
+//			System.out.println("Regras de cache removida!");
+			
 //			// Adicionar valor à ACL
 //			editor.addAclValue("rede_local", "10.0.0.0/8");
 //			System.out.println("Valor adicionado à ACL.");
 
 //			// Adicionar valor à ACL
-//			editor.addAclValue("blocked_sites", ".youtube.com");
+//			editor.addAclValue("blocked_sites", ".instagram.com");
 //			System.out.println("Valor adicionado à ACL.");
 
 //			// Adicionar diretiva http_access allow
-//			editor.addAclDirective("rede_local", AclServiceDirective.HTTP_ACCESS, AclServiceAction.DENY);
+//			editor.addAclDirective("rede_local", AclServiceDirective.HTTP_ACCESS, AclServiceAction.ALLOW);
 //			System.out.println("Diretiva adicionada.");
 
 //			// Adicionar diretiva cache_deny
@@ -53,6 +73,10 @@ public class Main {
 
 //			// Remover valor
 //			editor.removeAclValue("rede_local", "10.0.0.0/8");
+//			System.out.println("Valor removido da ACL.");
+			
+//			// Remover valor
+//			editor.removeAclValue("blocked_sites", ".youtube.com");
 //			System.out.println("Valor removido da ACL.");
 
 //			// Remover diretiva
