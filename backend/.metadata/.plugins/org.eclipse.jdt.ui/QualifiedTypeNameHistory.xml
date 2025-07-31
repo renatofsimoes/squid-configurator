@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="com.squid_configurator.squidconfig.model.CacheRule"/>
-    <fullyQualifiedTypeName name="com.squid_configurator.squidconfig.model.enums.CacheType"/>
-    <fullyQualifiedTypeName name="com.squid_configurator.squidconfig.model.enums.BandWidthType"/>
-</qualifiedTypeNameHistroy>

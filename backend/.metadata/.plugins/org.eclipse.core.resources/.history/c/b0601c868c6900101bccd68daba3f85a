@@ -1,6 +1,0 @@
-package com.squid_configurator.squidconfig.services.enums;
-
-public enum AclServiceAction {
-	ALLOW,
-	DENY
-}

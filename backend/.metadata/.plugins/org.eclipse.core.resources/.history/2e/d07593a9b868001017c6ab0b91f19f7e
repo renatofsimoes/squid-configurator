@@ -1,5 +1,0 @@
-package com.squid_configurator.squidconfig.model;
-
-public class CacheRule {
-
-}
