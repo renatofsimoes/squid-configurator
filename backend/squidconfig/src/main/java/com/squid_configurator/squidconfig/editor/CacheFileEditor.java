@@ -1,13 +1,17 @@
-package com.squid_configurator.squidconfig.utils;
+package com.squid_configurator.squidconfig.editor;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Component;
 
 import com.squid_configurator.squidconfig.model.CacheRule;
 import com.squid_configurator.squidconfig.model.enums.CacheType;
 import com.squid_configurator.squidconfig.services.CacheService;
 
+@Component
 public class CacheFileEditor extends SquidConfFileEditor {
 
     private final CacheService cacheService = new CacheService();
@@ -48,6 +52,14 @@ public class CacheFileEditor extends SquidConfFileEditor {
         }
         writeConfigLines(lines);
     }
+    
+    public List<String> listCacheRules() throws IOException {
+        List<String> lines = readFile();
+        return lines.stream()
+            .filter(line -> line.trim().matches("^(cache_mem|cache_dir|maximum_object_size|minimum_object_size|refresh_pattern|cache_swap_low|cache_swap_high)\\b.*"))
+            .collect(Collectors.toList());
+    }
+
 
     private void validateSingleInstanceDirective(List<String> lines, CacheType type) {
         String prefix = getDirectivePrefix(type);

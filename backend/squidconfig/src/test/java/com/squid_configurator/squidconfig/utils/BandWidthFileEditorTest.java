@@ -14,6 +14,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.squid_configurator.squidconfig.editor.BandWidthFileEditor;
 import com.squid_configurator.squidconfig.model.BandWidthRule;
 import com.squid_configurator.squidconfig.model.enums.BandWidthType;
 

@@ -1,4 +1,4 @@
-package com.squid_configurator.squidconfig.utils;
+package com.squid_configurator.squidconfig.editor;
 
 import java.io.IOException;
 import java.nio.file.Files;

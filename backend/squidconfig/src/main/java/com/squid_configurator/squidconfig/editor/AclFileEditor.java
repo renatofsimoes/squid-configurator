@@ -1,4 +1,4 @@
-package com.squid_configurator.squidconfig.utils;
+package com.squid_configurator.squidconfig.editor;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -6,11 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Component;
+
 import com.squid_configurator.squidconfig.model.Acl;
 import com.squid_configurator.squidconfig.services.AclService;
 import com.squid_configurator.squidconfig.services.enums.AclServiceAction;
 import com.squid_configurator.squidconfig.services.enums.AclServiceDirective;
 
+@Component
 public class AclFileEditor extends SquidConfFileEditor{
 	
 	private final AclService aclService = new AclService();
@@ -82,13 +85,19 @@ public class AclFileEditor extends SquidConfFileEditor{
 		List<String> lines = readFile();
 		List<String> updatedLines = new ArrayList<>();
 		boolean aclFound = false;
+		boolean valueRemoved = false;
 		for (String line : lines) {
 			if (line.startsWith("acl " + aclName + " ")) {
-				String editedLine = aclService.removeAclLineValue(line, valueToRemove);
-				if (!editedLine.trim().equals("acl " + aclName)) {
-					updatedLines.add(editedLine);
-				}
 				aclFound = true;
+				if (line.contains(valueToRemove)) {
+					String editedLine = aclService.removeAclLineValue(line, valueToRemove);
+					if (!editedLine.trim().equals("acl " + aclName)) {
+						updatedLines.add(editedLine);
+					}
+					valueRemoved = true;
+				} else {
+					updatedLines.add(line);
+				}
 			} else {
 				updatedLines.add(line);
 			}
@@ -96,9 +105,11 @@ public class AclFileEditor extends SquidConfFileEditor{
 		if (!aclFound) {
 			throw new IllegalArgumentException("ACL com nome '" + aclName + "' não encontrada no arquivo.");
 		}
+		if (!valueRemoved) {
+			throw new IllegalArgumentException("Valor '" + valueToRemove + "' não encontrado na ACL '" + aclName + "'.");
+		}
 		writeConfigLines(updatedLines);
 	}
-	
 
 	public void addAclDirective(String aclName, AclServiceDirective directive, AclServiceAction action)
 	        throws IOException {
@@ -132,7 +143,19 @@ public class AclFileEditor extends SquidConfFileEditor{
 	    }
 	    writeConfigLines(lines);
 	}
-
+	
+	public List<String> listAclRules() throws IOException {
+	    List<String> lines = readFile();
+	    return lines.stream()
+	            .map(String::trim)
+	            .filter(line ->
+	                    line.startsWith("acl ") ||
+	                    line.startsWith("http_access ") ||
+	                    line.startsWith("http_reply_access ") ||
+	                    line.startsWith("url_rewrite_access ") ||
+	                    line.startsWith("access_log "))
+	            .collect(Collectors.toList());
+	}
 	
 	public void removeAclDirective(String aclName, AclServiceDirective directive, AclServiceAction action) throws IOException {
 	    String targetLine = aclService.buildAclDirectiveLine(aclName, directive, action);

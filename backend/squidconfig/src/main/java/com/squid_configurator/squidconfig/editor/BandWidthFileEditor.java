@@ -1,14 +1,18 @@
-package com.squid_configurator.squidconfig.utils;
+package com.squid_configurator.squidconfig.editor;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Component;
 
 import com.squid_configurator.squidconfig.model.BandWidthRule;
 import com.squid_configurator.squidconfig.model.enums.BandWidthType;
 import com.squid_configurator.squidconfig.services.BandWidthService;
 
+@Component
 public class BandWidthFileEditor extends SquidConfFileEditor {
 
 	private final BandWidthService bandWidthService = new BandWidthService();
@@ -82,6 +86,13 @@ public class BandWidthFileEditor extends SquidConfFileEditor {
 			throw new IllegalArgumentException("Nenhuma regra encontrada para o pool " + poolId);
 		}
 		writeConfigLines(updatedLines);
+	}
+	
+	public List<String> listBandWidthRules() throws IOException {
+	    List<String> lines = readFile();
+	    return lines.stream()
+	        .filter(line -> line.trim().matches("^(delay_pools|delay_class|delay_parameters|delay_access)\\b.*"))
+	        .collect(Collectors.toList());
 	}
 
 	private boolean isBandWidthLineOfPool(String line, String poolId) {

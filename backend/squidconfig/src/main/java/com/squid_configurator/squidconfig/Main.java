@@ -5,11 +5,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import com.squid_configurator.squidconfig.editor.AclFileEditor;
+import com.squid_configurator.squidconfig.editor.BandWidthFileEditor;
+import com.squid_configurator.squidconfig.editor.CacheFileEditor;
 import com.squid_configurator.squidconfig.model.CacheRule;
 import com.squid_configurator.squidconfig.model.enums.CacheType;
-import com.squid_configurator.squidconfig.utils.AclFileEditor;
-import com.squid_configurator.squidconfig.utils.BandWidthFileEditor;
-import com.squid_configurator.squidconfig.utils.CacheFileEditor;
 
 public class Main {
 
@@ -51,7 +51,7 @@ public class Main {
 //			System.out.println("Regras relacionadas a pool removidas!");
 
 //			//Remover regra de cache
-//			CacheRule rule = new CacheRule(CacheType.CACHE_MEM, "256 MB");
+//			CacheRule rule = new CacheRule(CacheType.CACHE_MEM, "128 MB");
 //			cacheEditor.removeCacheRule(rule);
 //			System.out.println("Regras de cache removida!");
 			
