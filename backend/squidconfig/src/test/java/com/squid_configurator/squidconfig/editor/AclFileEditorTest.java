@@ -1,4 +1,4 @@
-package com.squid_configurator.squidconfig.utils;
+package com.squid_configurator.squidconfig.editor;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -14,7 +14,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.squid_configurator.squidconfig.editor.AclFileEditor;
+import com.squid_configurator.squidconfig.editor.exceptions.ResourceNotFoundException;
 import com.squid_configurator.squidconfig.model.Acl;
 import com.squid_configurator.squidconfig.model.enums.AclType;
 import com.squid_configurator.squidconfig.services.enums.AclServiceAction;
@@ -96,7 +96,7 @@ public class AclFileEditorTest {
 		editor.removeAclDirective("logado", AclServiceDirective.HTTP_ACCESS, AclServiceAction.DENY);
 		List<String> lines = Files.readAllLines(tempFile);
 		assertFalse(lines.contains("http_access deny logado"));
-		IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+		ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> {
 			editor.removeAclDirective("naoExiste", AclServiceDirective.ACCESS_LOG, null);
 		});
 		assertEquals("Diretiva 'access_log /var/log/squid/access.log squid naoExiste' não encontrada no arquivo.", exception.getMessage());

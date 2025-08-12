@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
+import com.squid_configurator.squidconfig.editor.exceptions.ResourceNotFoundException;
 import com.squid_configurator.squidconfig.model.Acl;
 import com.squid_configurator.squidconfig.services.AclService;
 import com.squid_configurator.squidconfig.services.enums.AclServiceAction;
@@ -56,7 +57,7 @@ public class AclFileEditor extends SquidConfFileEditor{
 	        filtered.add(line);
 	    }
 	    if (!aclFound) {
-	        throw new IllegalArgumentException("ACL com nome '" + aclName + "' não encontrada no arquivo.");
+	    	throw new ResourceNotFoundException("ACL com nome '" + aclName + "' não encontrada no arquivo.");
 	    }
 	    writeConfigLines(filtered);
 	    removeAllAclDirectivesByName(aclName);
@@ -64,52 +65,61 @@ public class AclFileEditor extends SquidConfFileEditor{
 
 
 	public void addAclValue(String aclName, String newValue) throws IOException {
-		List<String> lines = readFile();
-		List<String> updatedLines = new ArrayList<>();
-		boolean aclFound = false;
-		for (String line : lines) {
-			if (line.startsWith("acl " + aclName + " ")) {
-				String editedLine = aclService.addAclLineValue(line, newValue);
-				updatedLines.add(editedLine);
-				aclFound = true;
-			} else {
-				updatedLines.add(line);
-			}
-		}
-		if (!aclFound) {
-			throw new IllegalArgumentException("ACL com nome '" + aclName + "' não encontrada no arquivo.");
-		}
-		writeConfigLines(updatedLines);
+	    List<String> lines = readFile();
+	    List<String> updatedLines = new ArrayList<>();
+	    boolean aclFound = false;
+	    for (String line : lines) {
+	        if (line.startsWith("acl " + aclName + " ")) {
+	            if (line.contains(newValue)) {
+	                throw new IllegalArgumentException("O valor '" + newValue + "' já existe na ACL '" + aclName + "'.");
+	            }
+	            String editedLine = aclService.addAclLineValue(line, newValue);
+	            updatedLines.add(editedLine);
+	            aclFound = true;
+	        } else {
+	            updatedLines.add(line);
+	        }
+	    }
+	    if (!aclFound) {
+	    	throw new ResourceNotFoundException("ACL com nome '" + aclName + "' não encontrada no arquivo.");
+	    }
+	    writeConfigLines(updatedLines);
 	}
+
 	public void removeAclValue(String aclName, String valueToRemove) throws IOException {
-		List<String> lines = readFile();
-		List<String> updatedLines = new ArrayList<>();
-		boolean aclFound = false;
-		boolean valueRemoved = false;
-		for (String line : lines) {
-			if (line.startsWith("acl " + aclName + " ")) {
-				aclFound = true;
-				if (line.contains(valueToRemove)) {
-					String editedLine = aclService.removeAclLineValue(line, valueToRemove);
-					if (!editedLine.trim().equals("acl " + aclName)) {
-						updatedLines.add(editedLine);
-					}
-					valueRemoved = true;
-				} else {
-					updatedLines.add(line);
-				}
-			} else {
-				updatedLines.add(line);
-			}
-		}
-		if (!aclFound) {
-			throw new IllegalArgumentException("ACL com nome '" + aclName + "' não encontrada no arquivo.");
-		}
-		if (!valueRemoved) {
-			throw new IllegalArgumentException("Valor '" + valueToRemove + "' não encontrado na ACL '" + aclName + "'.");
-		}
-		writeConfigLines(updatedLines);
+	    List<String> lines = readFile();
+	    List<String> updatedLines = new ArrayList<>();
+	    boolean aclFound = false;
+	    boolean valueRemoved = false;
+	    for (String line : lines) {
+	        if (!line.startsWith("acl " + aclName + " ")) {
+	            updatedLines.add(line);
+	            continue;
+	        }
+	        aclFound = true;
+	        if (!line.contains(valueToRemove)) {
+	            updatedLines.add(line);
+	            continue;
+	        }
+	        String editedLine = aclService.removeAclLineValue(line, valueToRemove);
+	        valueRemoved = true;
+	        String[] tokens = editedLine.trim().split("\\s+");
+	        if (tokens.length > 3) {
+	            updatedLines.add(editedLine);
+	        } else {
+	            removeAclByName(aclName);
+	            return;
+	        }
+	    }
+	    if (!aclFound) {
+	        throw new ResourceNotFoundException("ACL com nome '" + aclName + "' não encontrada no arquivo.");
+	    }
+	    if (!valueRemoved) {
+	        throw new ResourceNotFoundException("Valor '" + valueToRemove + "' não encontrado na ACL '" + aclName + "'.");
+	    }
+	    writeConfigLines(updatedLines);
 	}
+
 
 	public void addAclDirective(String aclName, AclServiceDirective directive, AclServiceAction action)
 	        throws IOException {
@@ -157,6 +167,28 @@ public class AclFileEditor extends SquidConfFileEditor{
 	            .collect(Collectors.toList());
 	}
 	
+	public String findAclLineByName(String aclName) throws IOException {
+	    List<String> lines = readFile();
+	    for (String line : lines) {
+	        if (line.startsWith("acl " + aclName + " ")) {
+	            return line;
+	        }
+	    }
+	    throw new ResourceNotFoundException("ACL com nome '" + aclName + "' não encontrada no arquivo.");
+	}
+	
+	public String findAclDirective(String aclName, AclServiceDirective directive, AclServiceAction action) throws IOException {
+	    String targetLine = aclService.buildAclDirectiveLine(aclName, directive, action);
+	    List<String> lines = readFile();
+	    for (String line : lines) {
+	        if (line.trim().equals(targetLine.trim())) {
+	            return line;
+	        }
+	    }
+	    throw new ResourceNotFoundException("Diretiva '" + targetLine + "' não encontrada no arquivo.");
+	}
+
+
 	public void removeAclDirective(String aclName, AclServiceDirective directive, AclServiceAction action) throws IOException {
 	    String targetLine = aclService.buildAclDirectiveLine(aclName, directive, action);
 	    List<String> lines = readFile();
@@ -170,7 +202,7 @@ public class AclFileEditor extends SquidConfFileEditor{
 	        updatedLines.add(line);
 	    }
 	    if (!directiveFound) {
-	        throw new IllegalArgumentException("Diretiva '" + targetLine + "' não encontrada no arquivo.");
+	    	throw new ResourceNotFoundException("Diretiva '" + targetLine + "' não encontrada no arquivo.");
 	    }
 	    writeConfigLines(updatedLines);
 	}
