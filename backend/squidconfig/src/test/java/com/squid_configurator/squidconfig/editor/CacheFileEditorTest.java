@@ -14,6 +14,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.squid_configurator.squidconfig.editor.exceptions.ResourceNotFoundException;
 import com.squid_configurator.squidconfig.model.CacheRule;
 import com.squid_configurator.squidconfig.model.enums.CacheType;
 
@@ -74,7 +75,7 @@ public class CacheFileEditorTest {
     @Test
     void testRemoveNonexistentCacheRuleException() {
         CacheRule rule = new CacheRule(CacheType.CACHE_MEM, "1 GB");
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> {
+        ResourceNotFoundException ex = assertThrows(ResourceNotFoundException.class, () -> {
             editor.removeCacheRule(rule);
         });
         assertEquals("Regra de cache não encontrada no arquivo.", ex.getMessage());

@@ -11,6 +11,16 @@ import com.squid_configurator.squidconfig.editor.exceptions.ResourceNotFoundExce
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
+	
+    @ExceptionHandler(ResourceNotFoundException.class)
+   	public ResponseEntity<StandardError> handleResourceNotFound(ResourceNotFoundException e){
+    	StandardError error = new StandardError(
+                HttpStatus.NOT_FOUND.value(),
+                HttpStatus.NOT_FOUND.getReasonPhrase(),
+                e.getMessage()
+            );
+   		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+   	}
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<StandardError> handleIllegalArgument(IllegalArgumentException e) {
@@ -21,16 +31,6 @@ public class GlobalExceptionHandler {
         );
         return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
     }
-    
-    @ExceptionHandler(ResourceNotFoundException.class)
-   	public ResponseEntity<StandardError> resourceNotFound(ResourceNotFoundException e){
-    	StandardError error = new StandardError(
-                HttpStatus.NOT_FOUND.value(),
-                HttpStatus.NOT_FOUND.getReasonPhrase(),
-                e.getMessage()
-            );
-   		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
-   	}
 
     @ExceptionHandler(IOException.class)
     public ResponseEntity<StandardError> handleIOException(IOException e) {

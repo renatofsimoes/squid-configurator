@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
+import com.squid_configurator.squidconfig.editor.exceptions.ResourceNotFoundException;
 import com.squid_configurator.squidconfig.model.CacheRule;
 import com.squid_configurator.squidconfig.model.enums.CacheType;
 import com.squid_configurator.squidconfig.services.CacheService;
@@ -48,7 +49,7 @@ public class CacheFileEditor extends SquidConfFileEditor {
         List<String> lines = readFile();
         boolean removed = lines.removeIf(line -> line.trim().equals(lineToRemove.trim()));
         if (!removed) {
-            throw new IllegalArgumentException("Regra de cache não encontrada no arquivo.");
+            throw new ResourceNotFoundException("Regra de cache não encontrada no arquivo.");
         }
         writeConfigLines(lines);
     }

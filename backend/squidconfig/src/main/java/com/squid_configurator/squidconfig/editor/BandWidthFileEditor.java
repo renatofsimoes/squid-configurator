@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
+import com.squid_configurator.squidconfig.editor.exceptions.ResourceNotFoundException;
 import com.squid_configurator.squidconfig.model.BandWidthRule;
 import com.squid_configurator.squidconfig.model.enums.BandWidthType;
 import com.squid_configurator.squidconfig.services.BandWidthService;
@@ -48,7 +49,6 @@ public class BandWidthFileEditor extends SquidConfFileEditor {
 	                    "Já existe uma linha 'delay_class' para o pool " + poolIdClass + ".");
 	            }
 	            break;
-
 	        case DELAY_PARAMETERS:
 	            boolean hasClassBeforeParameters = lines.stream()
 	                .anyMatch(line -> line.trim().startsWith("delay_class "));
@@ -83,7 +83,7 @@ public class BandWidthFileEditor extends SquidConfFileEditor {
 			updatedLines.add(line);
 		}
 		if (!anyFound) {
-			throw new IllegalArgumentException("Nenhuma regra encontrada para o pool " + poolId);
+			throw new ResourceNotFoundException("Nenhuma regra encontrada para o pool " + poolId);
 		}
 		writeConfigLines(updatedLines);
 	}
@@ -118,15 +118,23 @@ public class BandWidthFileEditor extends SquidConfFileEditor {
 			}
 			return index;
 		case DELAY_CLASS:
-			for (int i = 0; i < lines.size(); i++) {
-				String line = lines.get(i).trim();
-				if (line.startsWith("delay_class ")) {
-					index = i + 1;
-				} else if (line.startsWith("delay_parameters ")) {
-					break;
-				}
-			}
-			return index;
+		    for (int i = 0; i < lines.size(); i++) {
+		        String line = lines.get(i).trim();
+		        if (line.startsWith("delay_class ")) {
+		            index = i + 1;
+		        } else if (line.startsWith("delay_parameters ")) {
+		            break;
+		        }
+		    }
+		    if (index == 0) {
+		        for (int i = 0; i < lines.size(); i++) {
+		            if (lines.get(i).trim().startsWith("delay_pools ")) {
+		                index = i + 1;
+		                break;
+		            }
+		        }
+		    }
+		    return index;
 		case DELAY_PARAMETERS:
 			for (int i = 0; i < lines.size(); i++) {
 				String line = lines.get(i).trim();

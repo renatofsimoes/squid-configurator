@@ -3,6 +3,7 @@ package com.squid_configurator.squidconfig.controller;
 import java.io.IOException;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,7 +19,7 @@ import com.squid_configurator.squidconfig.model.CacheRule;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/api/cache")
+@RequestMapping("/cacherules")
 public class CacheController {
 
     private final CacheFileEditor cacheFileEditor;
@@ -28,32 +29,20 @@ public class CacheController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createCacheRule(@RequestBody CacheRule rule) {
-        try {
+    public ResponseEntity<CacheRule> createCacheRule(@RequestBody CacheRule rule) throws IOException {
             cacheFileEditor.addCacheRule(rule);
-            return ResponseEntity.ok("Regra de cache adicionada com sucesso.");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+            return ResponseEntity.status(HttpStatus.CREATED).body(rule);
     }
 
     @DeleteMapping
-    public ResponseEntity<String> removeCacheRule(@RequestBody CacheRule rule) {
-        try {
+    public ResponseEntity<String> removeCacheRule(@RequestBody CacheRule rule) throws IOException {
             cacheFileEditor.removeCacheRule(rule);
-            return ResponseEntity.ok("Regra de cache removida com sucesso.");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+            return ResponseEntity.noContent().build();
     }
 
     @GetMapping
-    public ResponseEntity<List<String>> findAllCacheRules() {
-        try {
+    public ResponseEntity<List<String>> findAllCacheRules() throws IOException {
             List<String> rules = cacheFileEditor.listCacheRules();
             return ResponseEntity.ok(rules);
-        } catch (IOException e) {
-            return ResponseEntity.internalServerError().build();
-        }
     }
 }

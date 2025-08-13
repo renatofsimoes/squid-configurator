@@ -14,6 +14,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.squid_configurator.squidconfig.editor.exceptions.ResourceNotFoundException;
 import com.squid_configurator.squidconfig.model.BandWidthRule;
 import com.squid_configurator.squidconfig.model.enums.BandWidthType;
 
@@ -112,7 +113,7 @@ public class BandWidthFileEditorTest {
 
     @Test
     void testRemoveBandWidthRulesByPoolNotFoundThrowsException() {
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () ->
+        ResourceNotFoundException ex = assertThrows(ResourceNotFoundException.class, () ->
             editor.removeBandWidthRulesByPool("2"));
         assertEquals("Nenhuma regra encontrada para o pool 2", ex.getMessage());
     }
