@@ -1,10 +1,14 @@
 import "./App.css";
-import LoginArea from "./components/LoginArea";
+import NavBar from "./components/NavBar";
+import Footer from "./components/Footer";
+import { Outlet } from "react-router-dom";
 
 function App() {
   return (
-    <div id="page-login">
-      <LoginArea />
+    <div>
+      <NavBar />
+      <Outlet />
+      <Footer />
     </div>
   );
 }
