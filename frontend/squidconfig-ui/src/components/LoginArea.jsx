@@ -1,10 +1,13 @@
 import "./LoginArea.css";
+import imgFundo from "../assets/squid_configurator-fundo.png";
+import logoFundo from "../assets/squid-teste.png";
+import logo from "../assets/squid_configurator-logo.png";
 
 const LoginArea = () => {
   return (
     <div id="main-container">
       <div id="container-img-login">
-        <h1>img</h1>
+        <img src={logo} alt="squid_configurator-fundo" />
       </div>
       <div id="container-login">
         <h1>Bem Vindo!</h1>
