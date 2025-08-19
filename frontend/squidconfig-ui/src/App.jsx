@@ -5,9 +5,11 @@ import { Outlet } from "react-router-dom";
 
 function App() {
   return (
-    <div>
+    <div id="page">
       <NavBar />
-      <Outlet />
+      <div id="content">
+        <Outlet />
+      </div>
       <Footer />
     </div>
   );

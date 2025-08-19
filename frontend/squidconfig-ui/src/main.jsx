@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App.jsx";
 
 import LoginPage from "./routes/LoginPage.jsx";
-import Home from "./routes/Home.jsx";
+import HomePage from "./routes/HomePage.jsx";
 import AclsPage from "./routes/AclsPage.jsx";
 import BandWidthRulesPage from "./routes/BandWidthRulesPage.jsx";
 import CacheRulesPage from "./routes/CacheRulesPage.jsx";
@@ -31,7 +31,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "home",
-        element: <Home />,
+        element: <HomePage />,
       },
       {
         path: "acls",

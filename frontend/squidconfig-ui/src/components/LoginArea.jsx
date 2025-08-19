@@ -8,7 +8,7 @@ const LoginArea = () => {
     <div id="login-page">
       <div id="main-container">
         <div id="container-img-login">
-          <img src={logo} alt="squid_configurator-fundo" />
+          <img src={logo} alt="squid_configurator-logo" />
         </div>
         <div id="container-login">
           <h1>Bem Vindo!</h1>

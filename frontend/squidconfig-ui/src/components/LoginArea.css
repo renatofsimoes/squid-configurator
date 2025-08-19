@@ -1,11 +1,3 @@
-#login-page {
-  background: linear-gradient(0deg, #163253 0%, #ffffff 100%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-}
-
 #main-container {
   display: flex;
   gap: 30px;
