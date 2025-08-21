@@ -21,32 +21,32 @@
   background-color: #06c780;
   color: #fff;
   border-radius: 20px;
-  margin-right: 170px;
+  margin-right: 130px;
   border: 3px solid transparent;
   transition: 0.2s;
 }
 #users-btn:hover {
-  color: #13175b;
-  border: 3px solid #13175b;
+  color: #20405f;
+  border: 3px solid #20405f;
 }
 
 #server-btn {
   padding: 4px 20px;
   background-color: #fff;
-  color: #13175b;
-  margin-right: 50px;
+  color: #20405f;
+  margin-right: 90px;
   border-radius: 20px;
   border: 3px solid transparent;
   transition: 0.2s;
 }
 #server-btn:hover {
-  border: 3px solid #13175b;
+  border: 3px solid #20405f;
 }
 
 #rule-buttons {
   display: flex;
   gap: 30px;
-  background-color: #13175b;
+  background-color: #00a0d0;
   padding: 10px 30px;
   border-radius: 5px;
   margin-left: 10px;

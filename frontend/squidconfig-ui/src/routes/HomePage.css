@@ -1,0 +1,18 @@
+#home-page {
+  width: 99vw;
+  height: 150vh;
+  background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.6)),
+    url("../assets/fundo.png");
+  background-size: cover;
+  background-position: center;
+}
+
+h1,
+h2 {
+  color: #ffffff;
+  font-family: Arial, Helvetica, sans-serif;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.9);
+}
+h1 {
+  font-size: 3.5rem;
+}
