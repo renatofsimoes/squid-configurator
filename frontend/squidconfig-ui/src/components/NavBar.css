@@ -26,27 +26,27 @@
   transition: 0.2s;
 }
 #users-btn:hover {
-  color: #20405f;
-  border: 3px solid #20405f;
+  color: #02173a;
+  border: 3px solid #02173a;
 }
 
 #server-btn {
   padding: 4px 20px;
   background-color: #fff;
-  color: #20405f;
+  color: #02173a;
   margin-right: 90px;
   border-radius: 20px;
   border: 3px solid transparent;
   transition: 0.2s;
 }
 #server-btn:hover {
-  border: 3px solid #20405f;
+  border: 3px solid #02173a;
 }
 
 #rule-buttons {
   display: flex;
   gap: 30px;
-  background-color: #00a0d0;
+  background-color: #042358;
   padding: 10px 30px;
   border-radius: 5px;
   margin-left: 10px;

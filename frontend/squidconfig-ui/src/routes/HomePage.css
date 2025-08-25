@@ -1,18 +1,32 @@
 #home-page {
   width: 99vw;
-  height: 150vh;
+  height: 155vh;
   background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.6)),
     url("../assets/fundo.png");
   background-size: cover;
   background-position: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-
-h1,
-h2 {
+#home-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  margin: 50px auto 30px auto;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 30px;
+}
+#home-title h1 {
   color: #ffffff;
   font-family: Arial, Helvetica, sans-serif;
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.9);
+  font-size: 5rem;
+  margin-bottom: 5px;
 }
-h1 {
-  font-size: 3.5rem;
+#home-title h2 {
+  color: #ffffff;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.9);
+  font-family: Arial, Helvetica, sans-serif;
 }

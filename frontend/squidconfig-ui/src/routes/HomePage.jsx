@@ -2,17 +2,19 @@ import React from "react";
 import "./HomePage.css";
 
 import HomeTechnologies from "../components/HomeTechnologies";
+import HomeDescription from "../components/HomeDescription";
 
 import { Outlet } from "react-router-dom";
 
 const Home = () => {
   return (
     <div id="home-page">
-      <span id="home-content">
+      <div id="home-title">
         <h1>SQUID CONFIGURATOR</h1>
         <h2>Automatizando configurações de proxy, simplificando redes.</h2>
-        <HomeTechnologies />
-      </span>
+      </div>
+      <HomeDescription />
+      <HomeTechnologies />
     </div>
   );
 };
