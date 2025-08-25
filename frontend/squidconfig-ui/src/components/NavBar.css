@@ -26,21 +26,21 @@
   transition: 0.2s;
 }
 #users-btn:hover {
-  color: #02173a;
-  border: 3px solid #02173a;
+  color: #042358;
+  border: 3px solid #042358;
 }
 
 #server-btn {
   padding: 4px 20px;
   background-color: #fff;
-  color: #02173a;
+  color: #042358;
   margin-right: 90px;
   border-radius: 20px;
   border: 3px solid transparent;
   transition: 0.2s;
 }
 #server-btn:hover {
-  border: 3px solid #02173a;
+  border: 3px solid #042358;
 }
 
 #rule-buttons {
