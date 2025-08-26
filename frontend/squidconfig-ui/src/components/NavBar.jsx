@@ -2,19 +2,28 @@ import React from "react";
 import "./NavBar.css";
 import logo from "../assets/squid_configurator-logo.png";
 import NavBarButton from "./NavBarButton";
+import { Link } from "react-router-dom";
 
 const NavBar = () => {
   return (
     <div id="navbar">
-      <img src={logo} alt="squid_configurator-logo" />
+      <Link to="/home">
+        <img src={logo} alt="squid_configurator-logo" />
+      </Link>
       <div id="navbar-buttons">
         <NavBarButton id="server-btn" text="SERVIDOR" />
         <NavBarButton id="users-btn" text="USUÁRIOS DA REDE" />
         <h3>Regras:</h3>
         <div id="rule-buttons">
-          <NavBarButton id="acls-btn" text="ACLs" />
-          <NavBarButton id="band-width-rules-btn" text="LARGURA DE BANDA" />
-          <NavBarButton id="cache-rules-btn" text="CACHE" />
+          <Link to="/acls">
+            <NavBarButton id="acls-btn" text="ACLs" />
+          </Link>
+          <Link to="/bandwidth-rules">
+            <NavBarButton id="band-width-rules-btn" text="LARGURA DE BANDA" />
+          </Link>
+          <Link to="/cache-rules">
+            <NavBarButton id="cache-rules-btn" text="CACHE" />
+          </Link>
         </div>
       </div>
     </div>
