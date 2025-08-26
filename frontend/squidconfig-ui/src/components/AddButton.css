@@ -1,10 +1,11 @@
 #add-btn button {
   border-radius: 5px;
-  border: 2px solid #042358;
+  border: 2px solid #01c37c;
   transition: 0.2s;
+  color: #01c37c;
 }
 
 #add-btn button:hover {
-  background-color: #042358;
+  background-color: #01c37c;
   color: #fff;
 }

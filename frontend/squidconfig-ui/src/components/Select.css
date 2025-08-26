@@ -1,0 +1,12 @@
+#filter-select select {
+  border: 2px solid #c7c7c7;
+  height: 30px;
+  color: #757575;
+  font-size: medium;
+}
+#filter-select select:focus {
+  border-color: #757575;
+}
+#filter-select label {
+  color: #757575;
+}

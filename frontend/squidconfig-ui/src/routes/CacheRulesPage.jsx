@@ -5,7 +5,7 @@ import AddButton from "../components/AddButton";
 const CacheRulesPage = () => {
   return (
     <div id="cache-page">
-      <h1>Cache</h1>
+      <h1>CACHE</h1>
       <AddButton text="+ Adicionar regra de cache" />
     </div>
   );
