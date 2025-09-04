@@ -1,0 +1,20 @@
+.add-btn {
+  border-radius: 5px;
+  border: 2px solid #01c37c;
+  transition: 0.2s;
+  color: #01c37c;
+}
+.add-btn:hover {
+  background-color: #01c37c;
+  color: #fff;
+}
+
+.create-btn,
+.back-btn {
+  width: 150px;
+  height: 50px;
+}
+
+.clear-btn:hover {
+  background-color: #ed9600;
+}

@@ -1,0 +1,42 @@
+#acls-form {
+  display: flex;
+  flex-direction: column;
+}
+#acl-inputs-control {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 40px;
+  align-items: center;
+}
+.form-btns {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+}
+.acl-input {
+  display: flex;
+  flex-direction: column;
+}
+.acl-input input {
+  border: 2px solid transparent;
+  outline: none;
+  border-radius: 5px;
+  height: 30px;
+  width: 200px;
+}
+.acl-input label {
+  margin-bottom: 7px;
+}
+.acl-select select {
+  border: 2px solid #c7c7c7;
+  height: 30px;
+  color: #757575;
+}
+.acl-select label {
+  margin-right: 7px;
+}
+.acl-input input:focus {
+  border: 2px solid #acacac;
+}

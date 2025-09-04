@@ -1,12 +1,12 @@
 import React from "react";
 import "./CacheRulesPage.css";
-import AddButton from "../components/AddButton";
+import Button from "../components/Button";
 
 const CacheRulesPage = () => {
   return (
     <div id="cache-page">
       <h1>CACHE</h1>
-      <AddButton text="+ Adicionar regra de cache" />
+      <Button className="add-btn" text="+ Adicionar regra de cache" />
     </div>
   );
 };

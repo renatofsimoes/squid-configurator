@@ -8,6 +8,8 @@ import HomePage from "./routes/HomePage.jsx";
 import AclsPage from "./routes/AclsPage.jsx";
 import BandWidthRulesPage from "./routes/BandWidthRulesPage.jsx";
 import CacheRulesPage from "./routes/CacheRulesPage.jsx";
+import ServerPage from "./routes/ServerPage.jsx";
+import UsersPage from "./routes/UsersPage.jsx";
 
 import {
   createBrowserRouter,
@@ -44,6 +46,14 @@ const router = createBrowserRouter([
       {
         path: "cache-rules",
         element: <CacheRulesPage />,
+      },
+      {
+        path: "server",
+        element: <ServerPage />,
+      },
+      {
+        path: "network-users",
+        element: <UsersPage />,
       },
     ],
   },

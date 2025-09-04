@@ -8,3 +8,17 @@
 #content {
   flex: 1;
 }
+.forms {
+  background-color: #e3e3e3;
+  padding: 30px;
+  border-radius: 20px;
+  font-weight: bold;
+}
+.forms button {
+  font-size: small;
+  border-radius: 3px;
+  transition: 0.2s;
+}
+.form-btns button:nth-child(1):hover {
+  background-color: #01c37c;
+}

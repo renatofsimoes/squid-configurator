@@ -11,8 +11,12 @@ const NavBar = () => {
         <img src={logo} alt="squid_configurator-logo" />
       </Link>
       <div id="navbar-buttons">
-        <NavBarButton id="server-btn" text="SERVIDOR" />
-        <NavBarButton id="users-btn" text="USUÁRIOS DA REDE" />
+        <Link to="/server">
+          <NavBarButton id="server-btn" text="SERVIDOR" />
+        </Link>
+        <Link to="/network-users">
+          <NavBarButton id="users-btn" text="USUÁRIOS DA REDE" />
+        </Link>
         <h3>Regras:</h3>
         <div id="rule-buttons">
           <Link to="/acls">
