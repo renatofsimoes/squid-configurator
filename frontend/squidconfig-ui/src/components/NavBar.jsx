@@ -15,7 +15,7 @@ const NavBar = () => {
           <NavBarButton id="server-btn" text="SERVIDOR" />
         </Link>
         <Link to="/network-users">
-          <NavBarButton id="users-btn" text="USUÁRIOS DA REDE" />
+          <NavBarButton id="users-btn" text="CONTROLE DE USUÁRIOS" />
         </Link>
         <h3>Regras:</h3>
         <div id="rule-buttons">

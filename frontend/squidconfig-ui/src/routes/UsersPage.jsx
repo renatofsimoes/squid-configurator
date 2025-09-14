@@ -4,7 +4,7 @@ import "./UsersPage.css";
 const UsersPage = () => {
   return (
     <div id="users-page">
-      <h1>USUÁRIOS DA REDE</h1>
+      <h1>CONTROLE DE USUÁRIOS</h1>
     </div>
   );
 };

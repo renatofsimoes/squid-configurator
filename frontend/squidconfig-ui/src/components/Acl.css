@@ -1,0 +1,31 @@
+.acl {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background-color: #d2d2d2;
+  padding: 10px;
+  border-radius: 10px;
+}
+.acl h2 {
+  font-size: 35px;
+}
+.acl-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+.acl-bottom {
+  display: flex;
+  align-items: center;
+}
+.acl-bottom p {
+  margin-right: 10px;
+}
+.values {
+  display: flex;
+  gap: 6;
+  font-weight: bold;
+  color: #dd1d1d;
+}

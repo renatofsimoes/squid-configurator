@@ -21,3 +21,9 @@
   align-items: center;
   gap: 15px;
 }
+
+.rules-list {
+  background-color: #fbfbfb;
+  padding: 20px;
+  border-radius: 10px;
+}

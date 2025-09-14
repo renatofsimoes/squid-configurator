@@ -11,10 +11,22 @@
 
 .create-btn,
 .back-btn {
-  width: 150px;
-  height: 50px;
+  padding: auto;
+}
+.create-btn:hover {
+  background-color: #01c37c;
+}
+.back-btn i {
+  font-size: x-large;
+}
+.create-btn i {
+  font-size: x-large;
 }
 
+.clear-btn {
+  font-size: 14px;
+  width: 90px;
+}
 .clear-btn:hover {
   background-color: #ed9600;
 }

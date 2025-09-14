@@ -3,19 +3,20 @@ import "./AclsPage.css";
 import Button from "../components/Button";
 import Select from "../components/Select";
 import AclsForm from "../components/AclsForm";
+import Acl from "../components/Acl";
 
 const AclsPage = () => {
   const [selectedAclType, setSelectedAclType] = useState("ALL");
   const [showForm, setShowForm] = useState(false);
 
   const aclTypes = [
-    { value: "ALL", label: "Todos" },
-    { value: "SRC", label: "IPs de origem" },
-    { value: "DST", label: "IPs de destino" },
-    { value: "DSTDOMAIN", label: "Domínios de destino" },
-    { value: "PORT", label: "Portas de destino" },
-    { value: "TIME", label: "Horários" },
-    { value: "URL_REGEX", label: "Palavras-chave" },
+    { value: "all", label: "Todos" },
+    { value: "src", label: "IPs de origem" },
+    { value: "dst", label: "IPs de destino" },
+    { value: "dstdomain", label: "Domínios de destino" },
+    { value: "port", label: "Portas de destino" },
+    { value: "time", label: "Horários" },
+    { value: "url_regex", label: "Palavras-chave" },
   ];
 
   return (
@@ -38,7 +39,9 @@ const AclsPage = () => {
               onChange={(e) => setSelectedAclType(e.target.value)}
             />
           </div>
-          <p>{selectedAclType}</p>
+          <div className="rules-list">
+            <Acl aclNme="rede_local" aclType="src" aclValues="192.168.0.0/24" />
+          </div>
         </>
       )}
     </div>
