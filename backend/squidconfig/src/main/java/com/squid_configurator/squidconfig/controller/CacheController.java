@@ -17,7 +17,7 @@ import com.squid_configurator.squidconfig.editor.CacheFileEditor;
 import com.squid_configurator.squidconfig.model.CacheRule;
 
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/cacherules")
 public class CacheController {

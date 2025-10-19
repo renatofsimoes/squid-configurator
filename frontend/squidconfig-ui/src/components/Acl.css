@@ -3,7 +3,7 @@
   align-items: center;
   gap: 20px;
   background-color: #d2d2d2;
-  padding: 10px;
+  padding: 20px;
   border-radius: 10px;
 }
 .acl h2 {
@@ -13,8 +13,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 15px;
+  gap: 25px;
   margin-bottom: 15px;
+}
+.acl-buttons {
+  display: flex;
+  gap: 10px;
 }
 .acl-bottom {
   display: flex;
@@ -25,7 +29,16 @@
 }
 .values {
   display: flex;
-  gap: 6;
+  flex-wrap: wrap;
+  gap: 8px;
   font-weight: bold;
   color: #dd1d1d;
+  word-break: break-word;
+  max-width: 100%;
+}
+
+.value-item {
+  background-color: #fcdcdc;
+  border-radius: 8px;
+  padding: 4px 10px;
 }

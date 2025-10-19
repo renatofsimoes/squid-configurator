@@ -30,3 +30,10 @@
 .clear-btn:hover {
   background-color: #ed9600;
 }
+
+.edit-acl-values-btn:hover {
+  background-color: #ed9600;
+}
+.add-acl-directive-btn:hover {
+  background-color: #01c37c;
+}

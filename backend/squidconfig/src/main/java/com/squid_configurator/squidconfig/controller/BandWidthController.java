@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.squid_configurator.squidconfig.editor.BandWidthFileEditor;
 import com.squid_configurator.squidconfig.model.BandWidthRule;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/bandwidthrules")
 public class BandWidthController {

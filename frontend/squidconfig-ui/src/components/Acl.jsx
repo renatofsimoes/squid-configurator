@@ -2,23 +2,42 @@ import React from "react";
 import "./Acl.css";
 import Button from "./Button";
 
-const Acl = ({ aclNme, aclType, aclValues }) => {
+const Acl = ({ aclName, aclType, aclValues, onAddDirective }) => {
+  const values = Array.isArray(aclValues) ? aclValues : [aclValues];
   return (
     <div className="acl">
       <div className="acl-content">
         <div className="acl-top">
-          <h2>{aclNme}</h2>
+          <h2>{aclName}</h2>
           <div>
             Tipo: <b>{aclType}</b>
+          </div>
+          <div className="acl-buttons">
+            <Button
+              className="add-acl-directive-btn"
+              iClass="fa-solid fa-plus"
+              onClick={onAddDirective}
+            />
+            <Button
+              className="edit-acl-values-btn"
+              iClass="fa-solid fa-pen-clip"
+            />
+            <Button
+              className="delete-acl-btn"
+              iClass="fa-solid fa-delete-left"
+            />
           </div>
         </div>
         <div className="acl-bottom">
           <p>Valores:</p>
-          <div className="values">{aclValues}</div>
+          <div className="values">
+            {values.map((value, index) => (
+              <div key={index} className="value-item">
+                {value}
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-      <div className="acl-buttons">
-        <Button className="delete-acl-btn" iClass="fa-solid fa-delete-left" />
       </div>
     </div>
   );

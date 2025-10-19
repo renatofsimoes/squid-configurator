@@ -1,6 +1,10 @@
 #acls-form {
   display: flex;
+  align-items: center;
   flex-direction: column;
+}
+#acls-form h2 {
+  margin-bottom: 20px;
 }
 #acl-inputs-control {
   display: flex;

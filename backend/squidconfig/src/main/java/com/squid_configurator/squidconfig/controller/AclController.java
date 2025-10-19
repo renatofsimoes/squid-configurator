@@ -24,7 +24,7 @@ import com.squid_configurator.squidconfig.model.Acl;
 import com.squid_configurator.squidconfig.services.enums.AclServiceAction;
 import com.squid_configurator.squidconfig.services.enums.AclServiceDirective;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/acls")
 public class AclController {
