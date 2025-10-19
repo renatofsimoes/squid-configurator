@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./AclsPage.css";
 import Button from "../components/Button";
 import Select from "../components/Select";
@@ -7,8 +7,9 @@ import DirectivesForm from "../components/AclDirectivesForm";
 import Acl from "../components/Acl";
 
 const AclsPage = () => {
-  const [selectedAclType, setSelectedAclType] = useState("ALL");
+  const [selectedAclType, setSelectedAclType] = useState("all");
   const [activeForm, setActiveForm] = useState(null);
+  const [acls, setAcls] = useState([]);
 
   const aclTypes = [
     { value: "all", label: "Todos" },
@@ -20,9 +21,66 @@ const AclsPage = () => {
     { value: "url_regex", label: "Palavras-chave" },
   ];
 
+  // Buscar ACLs ao carregar a página
+  useEffect(() => {
+    fetch("http://localhost:8080/acls")
+      .then((res) => res.json())
+      .then((data) => {
+        const parsed = parseAcls(data);
+        setAcls(parsed);
+      })
+      .catch((err) => console.error("Erro ao buscar ACLs:", err));
+  }, []);
+
+  // Função que transforma as linhas em objetos ACL
+  const parseAcls = (lines) => {
+    const aclMap = {};
+
+    lines.forEach((rawLine) => {
+      const line = rawLine.trim();
+      if (!line || line.startsWith("#")) return;
+
+      const parts = line.split(/\s+/);
+      const prefix = parts[0].toLowerCase();
+
+      if (prefix === "acl") {
+        const name = parts[1];
+        const type = parts[2];
+        const values = parts.slice(3);
+
+        if (!aclMap[name]) {
+          aclMap[name] = { name, type, values, directives: [] };
+        } else {
+          aclMap[name].values.push(...values);
+        }
+      } else if (
+        line.toLowerCase().startsWith("http_access") ||
+        line.toLowerCase().startsWith("http_reply_access") ||
+        line.toLowerCase().startsWith("url_rewrite_access") ||
+        line.toLowerCase().startsWith("access_log")
+      ) {
+        // Vincula a diretiva à ACL correspondente, se existir
+        Object.keys(aclMap).forEach((aclName) => {
+          if (line.includes(aclName)) {
+            aclMap[aclName].directives.push(line);
+          }
+        });
+      }
+    });
+
+    return Object.values(aclMap);
+  };
+
+  // Aplicar filtro por tipo
+  const filteredAcls =
+    selectedAclType === "all"
+      ? acls
+      : acls.filter((a) => a.type === selectedAclType);
+
   return (
     <div id="acls-page">
       <h1>ACLs</h1>
+
       {activeForm === "addAcl" ? (
         <AclsForm onBack={() => setActiveForm(null)} />
       ) : activeForm === "addDirective" ? (
@@ -42,34 +100,22 @@ const AclsPage = () => {
               onChange={(e) => setSelectedAclType(e.target.value)}
             />
           </div>
+
           <div className="rules-list">
-            <Acl
-              aclName="rede_local2"
-              aclType="src"
-              aclValues={[
-                "192.168.0.0/24",
-                "192.168.1.0/24",
-                "10.0.0.0/8",
-                "172.16.0.0/12",
-                "192.168.56.0/24",
-                "192.168.100.0/24",
-                "200.200.200.0/24",
-                "10.10.10.0/24",
-                "192.168.10.0/24",
-                "192.168.11.0/24",
-                "192.168.12.0/24",
-                "192.168.13.0/24",
-                "192.168.14.0/24",
-                "192.168.15.0/24",
-                "10.0.1.0/24",
-                "10.0.2.0/24",
-                "10.0.3.0/24",
-                "192.168.200.0/24",
-                "192.168.201.0/24",
-                "192.168.202.0/24",
-              ]}
-              onAddDirective={() => setActiveForm("addDirective")}
-            />
+            {filteredAcls.length === 0 ? (
+              <p>Nenhuma ACL encontrada.</p>
+            ) : (
+              filteredAcls.map((acl) => (
+                <Acl
+                  key={acl.name}
+                  aclName={acl.name}
+                  aclType={acl.type}
+                  aclValues={acl.values}
+                  directives={acl.directives}
+                  onAddDirective={() => setActiveForm("addDirective")}
+                />
+              ))
+            )}
           </div>
         </>
       )}

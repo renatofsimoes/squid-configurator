@@ -23,6 +23,9 @@
 }
 
 .rules-list {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
   background-color: #fbfbfb;
   padding: 20px;
   border-radius: 10px;

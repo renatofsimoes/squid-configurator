@@ -2,8 +2,9 @@ import React from "react";
 import "./Acl.css";
 import Button from "./Button";
 
-const Acl = ({ aclName, aclType, aclValues, onAddDirective }) => {
+const Acl = ({ aclName, aclType, aclValues, onAddDirective, directives }) => {
   const values = Array.isArray(aclValues) ? aclValues : [aclValues];
+  const dValues = Array.isArray(directives) ? directives : [directives];
   return (
     <div className="acl">
       <div className="acl-content">
@@ -37,6 +38,16 @@ const Acl = ({ aclName, aclType, aclValues, onAddDirective }) => {
               </div>
             ))}
           </div>
+        </div>
+      </div>
+      <div className="acl-directives">
+        <p>Diretivas:</p>
+        <div className="dValues">
+          {dValues.map((dValue, index) => (
+            <div key={index} className="dValue-item">
+              {dValue}
+            </div>
+          ))}
         </div>
       </div>
     </div>
