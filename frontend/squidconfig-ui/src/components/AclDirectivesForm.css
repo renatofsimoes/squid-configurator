@@ -4,3 +4,10 @@
   align-items: center;
   gap: 30px;
 }
+
+#directives-form h2 {
+  color: #fff;
+  background-color: #042358;
+  padding: 5px;
+  border-radius: 5px;
+}

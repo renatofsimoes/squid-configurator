@@ -5,6 +5,10 @@
 }
 #acls-form h2 {
   margin-bottom: 20px;
+  color: #fff;
+  background-color: #042358;
+  padding: 5px;
+  border-radius: 5px;
 }
 #acl-inputs-control {
   display: flex;

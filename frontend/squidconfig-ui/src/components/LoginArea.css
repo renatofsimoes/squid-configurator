@@ -75,6 +75,10 @@
   visibility: hidden;
   color: #f84f4f;
 }
+#login-error-msg.show {
+  visibility: visible;
+  opacity: 1;
+}
 
 #submit-input {
   margin-top: 20px;

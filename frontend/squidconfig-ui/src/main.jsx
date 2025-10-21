@@ -10,11 +10,11 @@ import BandWidthRulesPage from "./routes/BandWidthRulesPage.jsx";
 import CacheRulesPage from "./routes/CacheRulesPage.jsx";
 import ServerPage from "./routes/ServerPage.jsx";
 import UsersPage from "./routes/UsersPage.jsx";
+import PrivateRoute from "./routes/PrivateRoute.jsx";
 
 import {
   createBrowserRouter,
   RouterProvider,
-  Route,
   Navigate,
 } from "react-router-dom";
 
@@ -29,31 +29,19 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: <App />,
+    element: <PrivateRoute />,
     children: [
       {
-        path: "home",
-        element: <HomePage />,
-      },
-      {
-        path: "acls",
-        element: <AclsPage />,
-      },
-      {
-        path: "bandwidth-rules",
-        element: <BandWidthRulesPage />,
-      },
-      {
-        path: "cache-rules",
-        element: <CacheRulesPage />,
-      },
-      {
-        path: "server",
-        element: <ServerPage />,
-      },
-      {
-        path: "network-users",
-        element: <UsersPage />,
+        path: "/",
+        element: <App />,
+        children: [
+          { path: "home", element: <HomePage /> },
+          { path: "acls", element: <AclsPage /> },
+          { path: "bandwidth-rules", element: <BandWidthRulesPage /> },
+          { path: "cache-rules", element: <CacheRulesPage /> },
+          { path: "server", element: <ServerPage /> },
+          { path: "network-users", element: <UsersPage /> },
+        ],
       },
     ],
   },

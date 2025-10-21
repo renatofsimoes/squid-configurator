@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.squid_configurator.squidconfig.services.AuthService;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/login")
 @CrossOrigin(origins = "http://localhost:5173")
 public class AuthController {
 
