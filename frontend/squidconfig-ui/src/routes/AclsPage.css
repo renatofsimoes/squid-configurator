@@ -20,6 +20,7 @@
   display: flex;
   align-items: center;
   gap: 15px;
+  margin-bottom: 30px;
 }
 
 .rules-list {
@@ -29,4 +30,9 @@
   background-color: #fbfbfb;
   padding: 20px;
   border-radius: 10px;
+}
+
+.error-msg {
+  color: #f13c3c;
+  margin-bottom: 10px;
 }

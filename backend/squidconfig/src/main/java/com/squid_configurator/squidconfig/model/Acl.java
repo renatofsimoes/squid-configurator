@@ -24,6 +24,10 @@ public class Acl {
 	public AclType getAclType() {
 		return aclType;
 	}
+	public void setType(String type) {
+	    this.aclType = AclType.fromString(type);
+	}
+
 	public void setAclType(AclType aclType) {
 		this.aclType = aclType;
 	}

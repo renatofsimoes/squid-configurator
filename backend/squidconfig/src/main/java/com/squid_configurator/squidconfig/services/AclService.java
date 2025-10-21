@@ -49,10 +49,8 @@ public class AclService {
 		case HTTP_REPLY_ACCESS:
 		case URL_REWRITE_ACCESS:
 		case DELAY_ACCESS:
-			return directive.getText() + " " + action.getText() + " " + aclName;
 		case CACHE:
-		case CACHE_DENY:
-			return directive.getText() + " " + aclName;
+			return directive.getText() + " " + action.getText() + " " + aclName;
 		case ACCESS_LOG:
 			return "access_log /var/log/squid/access.log squid " + aclName;
 		default:

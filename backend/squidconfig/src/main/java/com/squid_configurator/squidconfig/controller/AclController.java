@@ -37,11 +37,15 @@ public class AclController {
 
 	@PostMapping
 	public ResponseEntity<Acl> createAcl(@RequestBody Acl acl) throws IOException {
-		aclFileEditor.addAcl(acl);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{name}").buildAndExpand(acl.getName())
-				.toUri();
-		return ResponseEntity.created(uri).body(acl);
+	    aclFileEditor.addAcl(acl);
+	    URI uri = ServletUriComponentsBuilder
+	                .fromCurrentRequest()
+	                .path("/{name}")
+	                .buildAndExpand(acl.getName())
+	                .toUri();
+	    return ResponseEntity.created(uri).body(acl);
 	}
+
 
 	@DeleteMapping("/{aclName}")
 	public ResponseEntity<Void> deleteAcl(@PathVariable String aclName) throws IOException {

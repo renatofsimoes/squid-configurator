@@ -56,6 +56,7 @@ const AclsPage = () => {
       } else if (
         line.toLowerCase().startsWith("http_access") ||
         line.toLowerCase().startsWith("http_reply_access") ||
+        line.toLowerCase().startsWith("cache") ||
         line.toLowerCase().startsWith("url_rewrite_access") ||
         line.toLowerCase().startsWith("access_log")
       ) {

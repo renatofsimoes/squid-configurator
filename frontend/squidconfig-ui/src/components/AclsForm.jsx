@@ -2,22 +2,55 @@ import React, { useState } from "react";
 import "./AclsForm.css";
 import Button from "./Button";
 
-const AclsForm = ({ onBack }) => {
+const AclsForm = ({ onBack, onAclCreated }) => {
   const [name, setName] = useState("");
-  const [type, setType] = useState("SRC");
+  const [type, setType] = useState("src");
   const [value, setValue] = useState("");
+  const [error, setError] = useState(null);
 
   const clearForm = (e) => {
     e.preventDefault();
     setName("");
-    setType("SRC");
+    setType("src");
     setValue("");
+    setError(null);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError(null);
+
+    const acl = { name, type: type.toUpperCase(), value: value };
+
+    try {
+      const response = await fetch("http://localhost:8080/acls", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(acl),
+      });
+
+      if (response.ok) {
+        const createdAcl = await response.json();
+        if (onAclCreated) onAclCreated(createdAcl); // atualiza lista na página
+        clearForm(e);
+        onBack();
+      } else {
+        const errorData = await response.json();
+        setError(errorData.message || "Erro ao criar ACL");
+      }
+    } catch (err) {
+      console.error("Erro de conexão:", err);
+      setError("Erro ao conectar com o servidor");
+    }
   };
 
   return (
     <div className="forms">
-      <form id="acls-form">
+      <form id="acls-form" onSubmit={handleSubmit}>
         <h2>Adicionar ACL</h2>
+
+        {error && <p className="error-msg">{error}</p>}
+
         <div id="acl-inputs-control">
           <div id="acl-first">
             <div className="acl-input">
@@ -44,10 +77,11 @@ const AclsForm = ({ onBack }) => {
               </select>
             </div>
           </div>
+
           <div id="acl-last">
             <div className="acl-input">
               <label>Primeiro valor:</label>
-              {type === "SRC" || type === "DST" ? (
+              {type === "src" || type === "dst" ? (
                 <input
                   type="text"
                   placeholder="Ex: 192.168.0.1"
@@ -55,7 +89,7 @@ const AclsForm = ({ onBack }) => {
                   onChange={(e) => setValue(e.target.value)}
                   required
                 />
-              ) : type === "DSTDOMAIN" ? (
+              ) : type === "dstdomain" ? (
                 <input
                   type="text"
                   placeholder="Ex: exemplo.com"
@@ -76,6 +110,7 @@ const AclsForm = ({ onBack }) => {
             <Button text="LIMPAR" className="clear-btn" onClick={clearForm} />
           </div>
         </div>
+
         <div className="form-btns">
           <Button
             iClass="fas fa-arrow-left"

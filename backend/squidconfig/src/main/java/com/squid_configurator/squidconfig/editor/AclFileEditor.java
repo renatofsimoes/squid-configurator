@@ -162,6 +162,7 @@ public class AclFileEditor extends SquidConfFileEditor{
 	                    line.startsWith("acl ") ||
 	                    line.startsWith("http_access ") ||
 	                    line.startsWith("http_reply_access ") ||
+	                    line.startsWith("cache ") ||
 	                    line.startsWith("url_rewrite_access ") ||
 	                    line.startsWith("access_log "))
 	            .collect(Collectors.toList());
