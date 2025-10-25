@@ -31,6 +31,7 @@ const AclsForm = ({ onBack, onAclCreated }) => {
 
       if (response.ok) {
         const createdAcl = await response.json();
+        window.alert(`ACL '${createdAcl.name}' criada com sucesso!`);
         if (onAclCreated) onAclCreated(createdAcl); // atualiza lista na página
         clearForm(e);
         onBack();
@@ -92,7 +93,7 @@ const AclsForm = ({ onBack, onAclCreated }) => {
               ) : type === "dstdomain" ? (
                 <input
                   type="text"
-                  placeholder="Ex: exemplo.com"
+                  placeholder="Ex: .exemplo.com"
                   value={value}
                   onChange={(e) => setValue(e.target.value)}
                   required

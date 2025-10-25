@@ -10,6 +10,7 @@ const AclsPage = () => {
   const [selectedAclType, setSelectedAclType] = useState("all");
   const [activeForm, setActiveForm] = useState(null);
   const [acls, setAcls] = useState([]);
+  const [selectedAcl, setSelectedAcl] = useState(null);
 
   const aclTypes = [
     { value: "all", label: "Todos" },
@@ -21,8 +22,7 @@ const AclsPage = () => {
     { value: "url_regex", label: "Palavras-chave" },
   ];
 
-  // Buscar ACLs ao carregar a página
-  useEffect(() => {
+  const loadAcls = () => {
     fetch("http://localhost:8080/acls")
       .then((res) => res.json())
       .then((data) => {
@@ -30,9 +30,14 @@ const AclsPage = () => {
         setAcls(parsed);
       })
       .catch((err) => console.error("Erro ao buscar ACLs:", err));
+  };
+
+  //Buscar ACLs ao carregar a página
+  useEffect(() => {
+    loadAcls();
   }, []);
 
-  // Função que transforma as linhas em objetos ACL
+  //Função que transforma as linhas em objetos ACL
   const parseAcls = (lines) => {
     const aclMap = {};
 
@@ -72,20 +77,50 @@ const AclsPage = () => {
     return Object.values(aclMap);
   };
 
-  // Aplicar filtro por tipo
+  //Aplicar filtro por tipo
   const filteredAcls =
     selectedAclType === "all"
       ? acls
       : acls.filter((a) => a.type === selectedAclType);
+
+  const handleDeleteAcl = async (aclName) => {
+    if (!window.confirm(`Deseja realmente excluir a ACL '${aclName}'?`)) return;
+
+    try {
+      const response = await fetch(`http://localhost:8080/acls/${aclName}`, {
+        method: "DELETE",
+      });
+
+      if (response.ok) {
+        setAcls((prev) => prev.filter((a) => a.name !== aclName));
+      } else {
+        const errorData = await response.json().catch(() => null);
+        alert(errorData?.message || "Erro ao excluir ACL.");
+      }
+    } catch (err) {
+      alert(`Falha ao conectar com o servidor: ${err.message}`);
+    }
+  };
 
   return (
     <div id="acls-page">
       <h1>ACLs</h1>
 
       {activeForm === "addAcl" ? (
-        <AclsForm onBack={() => setActiveForm(null)} />
+        <AclsForm
+          onBack={() => {
+            setActiveForm(null);
+            loadAcls(); // recarrega ACLs após criar uma nova
+          }}
+        />
       ) : activeForm === "addDirective" ? (
-        <DirectivesForm onBack={() => setActiveForm(null)} />
+        <DirectivesForm
+          aclName={selectedAcl} //passa a ACL selecionada
+          onBack={() => {
+            setActiveForm(null);
+            loadAcls(); // recarrega diretivas após criar uma nova
+          }}
+        />
       ) : (
         <>
           <div className="filter-header">
@@ -113,7 +148,11 @@ const AclsPage = () => {
                   aclType={acl.type}
                   aclValues={acl.values}
                   directives={acl.directives}
-                  onAddDirective={() => setActiveForm("addDirective")}
+                  onAddDirective={() => {
+                    setSelectedAcl(acl.name); //define a ACL clicada
+                    setActiveForm("addDirective"); // abre o form
+                  }}
+                  onDeleteAcl={handleDeleteAcl}
                 />
               ))
             )}

@@ -2,9 +2,17 @@ import React from "react";
 import "./Acl.css";
 import Button from "./Button";
 
-const Acl = ({ aclName, aclType, aclValues, onAddDirective, directives }) => {
+const Acl = ({
+  aclName,
+  aclType,
+  aclValues,
+  directives,
+  onAddDirective,
+  onDeleteAcl,
+}) => {
   const values = Array.isArray(aclValues) ? aclValues : [aclValues];
   const dValues = Array.isArray(directives) ? directives : [directives];
+
   return (
     <div className="acl">
       <div className="acl-content">
@@ -26,9 +34,11 @@ const Acl = ({ aclName, aclType, aclValues, onAddDirective, directives }) => {
             <Button
               className="delete-acl-btn"
               iClass="fa-solid fa-delete-left"
+              onClick={() => onDeleteAcl(aclName)} //chama função passada pelo pai
             />
           </div>
         </div>
+
         <div className="acl-bottom">
           <p>Valores:</p>
           <div className="values">
@@ -40,6 +50,7 @@ const Acl = ({ aclName, aclType, aclValues, onAddDirective, directives }) => {
           </div>
         </div>
       </div>
+
       <div className="acl-directives">
         <p>Diretivas:</p>
         <div className="dValues">
