@@ -31,9 +31,15 @@
   background-color: #ed9600;
 }
 
-.edit-acl-values-btn:hover {
+.add-acl-values-btn {
+  font-size: small;
+}
+.remove-acl-values-btn {
+  font-size: small;
+}
+.remove-acl-values-btn:hover {
   background-color: #ed9600;
 }
-.add-acl-directive-btn:hover {
+.add-acl-values-btn:hover {
   background-color: #01c37c;
 }

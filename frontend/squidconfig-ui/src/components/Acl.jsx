@@ -23,17 +23,17 @@ const Acl = ({
           </div>
           <div className="acl-buttons">
             <Button
-              className="add-acl-directive-btn"
+              className="add-acl-values-btn"
               iClass="fa-solid fa-plus"
               onClick={onAddDirective}
             />
             <Button
-              className="edit-acl-values-btn"
-              iClass="fa-solid fa-pen-clip"
+              className="remove-acl-values-btn"
+              iClass="fa-solid fa-delete-left"
             />
             <Button
               className="delete-acl-btn"
-              iClass="fa-solid fa-delete-left"
+              iClass="fa-solid fa-trash-alt"
               onClick={() => onDeleteAcl(aclName)} //chama função passada pelo pai
             />
           </div>
