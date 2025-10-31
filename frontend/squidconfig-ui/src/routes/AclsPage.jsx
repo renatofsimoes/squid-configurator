@@ -4,6 +4,8 @@ import Button from "../components/Button";
 import Select from "../components/Select";
 import AclsForm from "../components/AclsForm";
 import DirectivesForm from "../components/AclDirectivesForm";
+import DirectiveOrValueChoiceForm from "../components/DirectiveOrValueChoiceForm";
+import ValuesForm from "../components/ValuesForm";
 import Acl from "../components/Acl";
 
 const AclsPage = () => {
@@ -110,15 +112,30 @@ const AclsPage = () => {
         <AclsForm
           onBack={() => {
             setActiveForm(null);
-            loadAcls(); // recarrega ACLs após criar uma nova
+            loadAcls();
           }}
+        />
+      ) : activeForm === "chooseDirectiveOrValue" ? (
+        <DirectiveOrValueChoiceForm
+          aclName={selectedAcl}
+          onChooseDirective={() => setActiveForm("addDirective")}
+          onChooseValue={() => setActiveForm("addValue")}
+          onBack={() => setActiveForm(null)}
         />
       ) : activeForm === "addDirective" ? (
         <DirectivesForm
-          aclName={selectedAcl} //passa a ACL selecionada
+          aclName={selectedAcl}
           onBack={() => {
             setActiveForm(null);
-            loadAcls(); // recarrega diretivas após criar uma nova
+            loadAcls();
+          }}
+        />
+      ) : activeForm === "addValue" ? (
+        <ValuesForm
+          aclName={selectedAcl}
+          onBack={() => {
+            setActiveForm(null);
+            loadAcls();
           }}
         />
       ) : (
@@ -149,8 +166,8 @@ const AclsPage = () => {
                   aclValues={acl.values}
                   directives={acl.directives}
                   onAddDirective={() => {
-                    setSelectedAcl(acl.name); //define a ACL clicada
-                    setActiveForm("addDirective"); // abre o form
+                    setSelectedAcl(acl.name);
+                    setActiveForm("chooseDirectiveOrValue");
                   }}
                   onDeleteAcl={handleDeleteAcl}
                 />

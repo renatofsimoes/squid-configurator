@@ -1,0 +1,36 @@
+#choice-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+#choice-form h2 {
+    color: #fff;
+    background-color: #042358;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+#choice-btns {
+    display: flex;
+    gap: 20px;
+}
+
+.dbtn {
+    padding: 10px;
+    font-size: large;
+}
+
+.vbtn {
+    padding: 15px 20px;
+    font-size: large;
+}
+
+.dbtn:hover {
+    background-color: #01c37c
+}
+
+.vbtn:hover {
+    background-color: #fe6565
+}
