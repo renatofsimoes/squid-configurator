@@ -2,9 +2,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 30px;
+  gap: 5px;
 }
 
+#directives-form p {
+  margin-bottom: 10px;
+}
 #directives-form h2 {
   color: #fff;
   background-color: #042358;
@@ -23,7 +26,30 @@
   margin-right: 5px;
 }
 
+#directives-top {
+  margin-top: 10px;
+}
+
 #directives-btns {
   display: flex;
   gap: 20px;
+  margin-top: 15px;
+}
+
+.removable {
+  color: #00aa6b;
+}
+
+.dValue-item.removable:hover {
+  background: #00aa6b;
+  color: #fff;
+}
+
+.dValue-item.selected {
+  background: #00aa6b;
+  color: #fff;
+}
+
+#remove-msg2 {
+  margin-top: 15px;
 }

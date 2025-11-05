@@ -1,0 +1,52 @@
+.values-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.values-form h2 {
+  color: #fff;
+  background-color: #042358;
+  padding: 5px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+.values-form input {
+  border: 2px solid transparent;
+  outline: none;
+  border-radius: 5px;
+  height: 30px;
+  width: 200px;
+  margin-bottom: 15px;
+}
+.valuesForm-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.values-list {
+  display: flex;
+  flex-wrap: wrap;
+  color: #dd1d1d;
+  gap: 8px;
+  margin: 12px 0 18px;
+  padding: 0;
+}
+
+.value-item.selected {
+  background: #dd1d1d;
+  color: #fff;
+}
+
+.value-item.removable {
+  cursor: pointer;
+}
+.value-item.removable:hover {
+  background: #dd1d1d;
+  color: #fff;
+}
+
+#remove-msg {
+  margin-bottom: 10px;
+}

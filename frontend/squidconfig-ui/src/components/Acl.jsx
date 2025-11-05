@@ -9,6 +9,7 @@ const Acl = ({
   directives,
   onAddDirective,
   onDeleteAcl,
+  onRemove,
 }) => {
   const values = Array.isArray(aclValues) ? aclValues : [aclValues];
   const dValues = Array.isArray(directives) ? directives : [directives];
@@ -29,7 +30,8 @@ const Acl = ({
             />
             <Button
               className="remove-acl-values-btn"
-              iClass="fa-solid fa-delete-left"
+              iClass="fa-solid fa-minus"
+              onClick={onRemove}
             />
             <Button
               className="delete-acl-btn"
@@ -53,13 +55,18 @@ const Acl = ({
 
       <div className="acl-directives">
         <p>Diretivas:</p>
-        <div className="dValues">
-          {dValues.map((dValue, index) => (
-            <div key={index} className="dValue-item">
-              {dValue}
-            </div>
-          ))}
-        </div>
+
+        {dValues && dValues.length > 0 ? (
+          <div className="dValues">
+            {dValues.map((dValue, index) => (
+              <div key={index} className="dValue-item">
+                {dValue}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <span className="value-empty">(nenhuma diretiva associada)</span>
+        )}
       </div>
     </div>
   );

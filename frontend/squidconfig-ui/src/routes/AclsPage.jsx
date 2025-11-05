@@ -5,6 +5,7 @@ import Select from "../components/Select";
 import AclsForm from "../components/AclsForm";
 import DirectivesForm from "../components/AclDirectivesForm";
 import DirectiveOrValueChoiceForm from "../components/DirectiveOrValueChoiceForm";
+import AclDirectivesForm from "../components/AclDirectivesForm";
 import ValuesForm from "../components/ValuesForm";
 import Acl from "../components/Acl";
 
@@ -13,6 +14,7 @@ const AclsPage = () => {
   const [activeForm, setActiveForm] = useState(null);
   const [acls, setAcls] = useState([]);
   const [selectedAcl, setSelectedAcl] = useState(null);
+  const [isRemoveMode, setIsRemoveMode] = useState(false);
 
   const aclTypes = [
     { value: "all", label: "Todos" },
@@ -117,14 +119,29 @@ const AclsPage = () => {
         />
       ) : activeForm === "chooseDirectiveOrValue" ? (
         <DirectiveOrValueChoiceForm
-          aclName={selectedAcl}
-          onChooseDirective={() => setActiveForm("addDirective")}
-          onChooseValue={() => setActiveForm("addValue")}
+          acl={selectedAcl}
+          mode={isRemoveMode ? "remove" : "add"}
+          onChooseDirective={() =>
+            setActiveForm(isRemoveMode ? "removeDirective" : "addDirective")
+          }
+          onChooseValue={() =>
+            setActiveForm(isRemoveMode ? "removeValue" : "addValue")
+          }
           onBack={() => setActiveForm(null)}
         />
       ) : activeForm === "addDirective" ? (
         <DirectivesForm
-          aclName={selectedAcl}
+          acl={selectedAcl}
+          mode="add"
+          onBack={() => {
+            setActiveForm(null);
+            loadAcls();
+          }}
+        />
+      ) : activeForm === "removeDirective" ? (
+        <AclDirectivesForm
+          acl={selectedAcl}
+          mode="remove"
           onBack={() => {
             setActiveForm(null);
             loadAcls();
@@ -132,7 +149,17 @@ const AclsPage = () => {
         />
       ) : activeForm === "addValue" ? (
         <ValuesForm
-          aclName={selectedAcl}
+          acl={selectedAcl}
+          mode="add"
+          onBack={() => {
+            setActiveForm(null);
+            loadAcls();
+          }}
+        />
+      ) : activeForm === "removeValue" ? (
+        <ValuesForm
+          acl={selectedAcl}
+          mode="remove"
           onBack={() => {
             setActiveForm(null);
             loadAcls();
@@ -166,7 +193,13 @@ const AclsPage = () => {
                   aclValues={acl.values}
                   directives={acl.directives}
                   onAddDirective={() => {
-                    setSelectedAcl(acl.name);
+                    setSelectedAcl(acl);
+                    setIsRemoveMode(false); // modo adicionar
+                    setActiveForm("chooseDirectiveOrValue");
+                  }}
+                  onRemove={() => {
+                    setSelectedAcl(acl);
+                    setIsRemoveMode(true); // modo remover
                     setActiveForm("chooseDirectiveOrValue");
                   }}
                   onDeleteAcl={handleDeleteAcl}
