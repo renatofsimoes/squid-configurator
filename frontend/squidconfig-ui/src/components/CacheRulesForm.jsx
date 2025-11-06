@@ -33,7 +33,7 @@ const CacheRulesForm = ({
 
   useEffect(() => {
     if (initialRule) {
-      setType(initialRule.type || "CACHE_DIR");
+      setType(initialRule.type?.toUpperCase() || "CACHE_DIR");
       setValue(initialRule.value || initialRule.params || "");
       setError(null);
     }
@@ -134,7 +134,9 @@ const CacheRulesForm = ({
               />
             </div>
 
-            <Button text="LIMPAR" className="clear-btn" onClick={clearForm} />
+            {mode === "add" && (
+              <Button text="LIMPAR" className="clear-btn" onClick={clearForm} />
+            )}
           </div>
         </div>
 
