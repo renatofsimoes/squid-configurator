@@ -8,7 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,33 +18,38 @@ import org.springframework.web.bind.annotation.RestController;
 import com.squid_configurator.squidconfig.editor.CacheFileEditor;
 import com.squid_configurator.squidconfig.model.CacheRule;
 
-
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/cacherules")
 public class CacheController {
 
-    private final CacheFileEditor cacheFileEditor;
+	private final CacheFileEditor cacheFileEditor;
 
-    public CacheController(CacheFileEditor cacheFileEditor) {
-        this.cacheFileEditor = cacheFileEditor;
-    }
+	public CacheController(CacheFileEditor cacheFileEditor) {
+		this.cacheFileEditor = cacheFileEditor;
+	}
 
-    @PostMapping
-    public ResponseEntity<CacheRule> createCacheRule(@RequestBody CacheRule rule) throws IOException {
-            cacheFileEditor.addCacheRule(rule);
-            return ResponseEntity.status(HttpStatus.CREATED).body(rule);
-    }
+	@PostMapping
+	public ResponseEntity<CacheRule> createCacheRule(@RequestBody CacheRule rule) throws IOException {
+		cacheFileEditor.addCacheRule(rule);
+		return ResponseEntity.status(HttpStatus.CREATED).body(rule);
+	}
 
-    @DeleteMapping
-    public ResponseEntity<String> removeCacheRule(@RequestBody CacheRule rule) throws IOException {
-            cacheFileEditor.removeCacheRule(rule);
-            return ResponseEntity.noContent().build();
-    }
+	@PutMapping("/{directive}")
+	public ResponseEntity<Void> updateCacheRule(@PathVariable String directive, @RequestBody String newValue) throws IOException {
+		cacheFileEditor.updateCacheRuleValue(directive, newValue);
+		return ResponseEntity.noContent().build();
+	}
 
-    @GetMapping
-    public ResponseEntity<List<String>> findAllCacheRules() throws IOException {
-            List<String> rules = cacheFileEditor.listCacheRules();
-            return ResponseEntity.ok(rules);
-    }
+	@DeleteMapping
+	public ResponseEntity<String> removeCacheRule(@RequestBody CacheRule rule) throws IOException {
+		cacheFileEditor.removeCacheRule(rule);
+		return ResponseEntity.noContent().build();
+	}
+
+	@GetMapping
+	public ResponseEntity<List<String>> findAllCacheRules() throws IOException {
+		List<String> rules = cacheFileEditor.listCacheRules();
+		return ResponseEntity.ok(rules);
+	}
 }

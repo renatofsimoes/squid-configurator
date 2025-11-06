@@ -60,6 +60,39 @@ public class CacheFileEditor extends SquidConfFileEditor {
             .filter(line -> line.trim().matches("^(cache_mem|cache_dir|maximum_object_size|minimum_object_size|refresh_pattern|cache_swap_low|cache_swap_high)\\b.*"))
             .collect(Collectors.toList());
     }
+    
+    public void updateCacheRuleValue(String directiveName, String newValue) throws IOException {
+        List<String> lines = readFile();
+        String directive = directiveName.trim().toLowerCase();
+        CacheType type;
+        try {
+            type = CacheType.valueOf(directive.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Diretiva de cache inválida: " + directiveName);
+        }
+        String prefix = getDirectivePrefix(type);
+        String newLine = prefix + " " + newValue.trim();
+
+        boolean updated = false;
+
+        for (int i = 0; i < lines.size(); i++) {
+            String line = lines.get(i).trim();
+            if (line.startsWith(prefix + " ")) {
+                lines.set(i, newLine);
+                updated = true;
+                break;
+            }
+        }
+
+        if (!updated) {
+            throw new ResourceNotFoundException(
+                    "A diretiva '" + prefix + "' não foi encontrada no arquivo."
+            );
+        }
+
+        writeConfigLines(lines);
+    }
+
 
 
     private void validateSingleInstanceDirective(List<String> lines, CacheType type) {
