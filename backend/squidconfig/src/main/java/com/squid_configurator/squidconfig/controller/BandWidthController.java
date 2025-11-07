@@ -36,13 +36,20 @@ public class BandWidthController {
 
 	@DeleteMapping("/{poolId}")
 	public ResponseEntity<String> deleteRulesByPool(@PathVariable String poolId) throws IOException {
-			bandWidthFileEditor.removeBandWidthRulesByPool(poolId);
-			return ResponseEntity.noContent().build();
+		bandWidthFileEditor.removeBandWidthRulesByPool(poolId);
+		return ResponseEntity.noContent().build();
 	}
 
 	@GetMapping
 	public ResponseEntity<List<String>> findAllRules() throws IOException {
-			List<String> rules = bandWidthFileEditor.listBandWidthRules();
-			return ResponseEntity.ok(rules);
+		List<String> rules = bandWidthFileEditor.listBandWidthRules();
+		return ResponseEntity.ok(rules);
 	}
+
+	@DeleteMapping("/delaypools")
+	public ResponseEntity<String> deleteDelayPoolsAndRules() throws IOException {
+		bandWidthFileEditor.removeDelayPoolsAndAllRules();
+		return ResponseEntity.noContent().build();
+	}
+
 }

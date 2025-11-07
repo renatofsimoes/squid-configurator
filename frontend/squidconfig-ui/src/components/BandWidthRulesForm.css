@@ -1,0 +1,48 @@
+#bandwidthrules-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#bandwidthrules-form h2 {
+  margin-bottom: 20px;
+  color: #fff;
+  background-color: #042358;
+  padding: 5px;
+  border-radius: 5px;
+}
+.bw-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+.bw-row label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.bw-row input {
+  border: 2px solid transparent;
+  outline: none;
+  border-radius: 5px;
+  height: 30px;
+  width: 250px;
+  margin-bottom: 15px;
+}
+.bw-row select {
+  border: 2px solid #c7c7c7;
+  height: 30px;
+  color: #757575;
+}
+.error-msg {
+  color: #ff002f;
+  padding: 8px;
+  border-radius: 6px;
+}
+.bw-clear-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 15px;
+  margin-bottom: 10px;
+}

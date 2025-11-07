@@ -22,13 +22,13 @@ const CacheRulesForm = ({
   const [value, setValue] = useState(initialRule?.value || "");
   const [error, setError] = useState(null);
   const examples = {
-    CACHE_DIR: "ex: /var/spool/squid 100 16 256",
-    CACHE_MEM: "ex: 256 MB",
-    MAXIMUM_OBJECT_SIZE: "ex: 4096 KB",
-    MINIMUM_OBJECT_SIZE: "ex: 5 KB",
-    CACHE_SWAP_LOW: "ex(%): 90",
-    CACHE_SWAP_HIGH: "ex(%): 95",
-    REFRESH_PATTERN: "ex: -i \\.(jpg|png)$ 0 20% 4320",
+    CACHE_DIR: "Ex: /var/spool/squid 100 16 256",
+    CACHE_MEM: "Ex: 256 MB",
+    MAXIMUM_OBJECT_SIZE: "Ex: 4096 KB",
+    MINIMUM_OBJECT_SIZE: "Ex: 5 KB",
+    CACHE_SWAP_LOW: "Ex(%): 90",
+    CACHE_SWAP_HIGH: "Ex(%): 95",
+    REFRESH_PATTERN: "Ex: -i \\.(jpg|png)$ 0 20% 4320",
   };
 
   useEffect(() => {

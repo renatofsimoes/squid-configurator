@@ -95,6 +95,34 @@ public class BandWidthFileEditor extends SquidConfFileEditor {
 	        .collect(Collectors.toList());
 	}
 
+	public void removeDelayPoolsAndAllRules() throws IOException {
+	    List<String> lines = readFile();
+	    List<String> updatedLines = new ArrayList<>();
+	    boolean found = false;
+
+	    for (String line : lines) {
+	        // Detecta delay_pools
+	        if (line.trim().startsWith("delay_pools")) {
+	            found = true;
+	            continue;
+	        }
+
+	        // Remove qualquer linha relacionada a largura de banda
+	        if (line.trim().matches("^(delay_class|delay_parameters|delay_access)\\b.*")) {
+	            continue;
+	        }
+
+	        updatedLines.add(line);
+	    }
+
+	    if (!found) {
+	        throw new ResourceNotFoundException("Nenhuma regra 'delay_pools' encontrada.");
+	    }
+
+	    writeConfigLines(updatedLines);
+	}
+
+	
 	private boolean isBandWidthLineOfPool(String line, String poolId) {
 		String trimmed = line.trim();
 		return trimmed.matches("^delay_pools\\s+" + poolId + "\\b.*")
