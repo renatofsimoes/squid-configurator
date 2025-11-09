@@ -12,9 +12,14 @@
   background-color: #d2d2d2;
   padding: 20px;
   border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(4, 35, 88, 0.08);
 }
 .acl h2 {
-  font-size: 35px;
+  font-size: 30px;
+  background-color: #042358;
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 15px;
 }
 .acl-top {
   display: flex;
@@ -60,6 +65,7 @@
   background-color: #e9e9e9;
   padding: 15px 30px;
   border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(4, 35, 88, 0.08);
 }
 .dValues {
   display: flex;

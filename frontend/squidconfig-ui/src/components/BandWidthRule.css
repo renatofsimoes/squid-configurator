@@ -2,6 +2,8 @@
   background-color: #d2d2d2;
   padding: 12px;
   border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(4, 35, 88, 0.08);
+  margin-bottom: 10px;
 }
 .bw-rule-top {
   display: flex;
@@ -9,7 +11,11 @@
   align-items: center;
 }
 .bw-rule-top h2 {
-  font-size: 1.8rem;
+  font-size: 25px;
+  background-color: #042358;
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 15px;
 }
 .bw-rule-lines {
   margin-top: 8px;
@@ -18,8 +24,8 @@
   gap: 6px;
 }
 .bw-line code {
-  background: #fdff95;
-  color: #6f7000;
+  background: #ffe5c4;
+  color: #de6f00;
   padding: 6px;
   border-radius: 6px;
   display: block;

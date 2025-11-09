@@ -2,7 +2,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
+  box-shadow: 0 6px 18px rgba(4, 35, 88, 0.08);
 }
 
 .cache-rule-content {
@@ -18,9 +19,11 @@
 }
 
 .cache-rule h2 {
-  font-size: 30px;
-  margin: 0;
-  text-align: center;
+  font-size: 25px;
+  background-color: #042358;
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 15px;
 }
 
 .cache-rule-top {

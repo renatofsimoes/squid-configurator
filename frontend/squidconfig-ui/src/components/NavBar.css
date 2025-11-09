@@ -15,15 +15,21 @@
 #navbar-buttons {
   display: flex;
   align-items: center;
+  gap: 120px;
 }
-#users-btn {
+
+#users-btn,
+#server-btn {
   padding: 4px 20px;
-  background-color: #06c780;
-  color: #fff;
   border-radius: 20px;
-  margin-right: 130px;
   border: 3px solid transparent;
   transition: 0.2s;
+  margin-right: 0;
+}
+
+#users-btn {
+  background-color: #06c780;
+  color: #fff;
 }
 #users-btn:hover {
   color: #042358;
@@ -31,13 +37,9 @@
 }
 
 #server-btn {
-  padding: 4px 20px;
   background-color: #fff;
   color: #042358;
-  margin-right: 90px;
-  border-radius: 20px;
-  border: 3px solid transparent;
-  transition: 0.2s;
+  padding-right: 30px;
 }
 #server-btn:hover {
   border: 3px solid #042358;
@@ -50,4 +52,38 @@
   padding: 10px 30px;
   border-radius: 5px;
   margin-left: 10px;
+}
+
+.server-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  padding: 0;
+}
+
+.server-dot {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  pointer-events: none;
+}
+.server-dot.on {
+  background: #00c853;
+}
+.server-dot.off {
+  background: #ff1744;
+}
+.server-dot.unknown {
+  background: #ffb300;
+}
+
+#navbar-buttons a {
+  text-decoration: none;
+  color: inherit;
 }

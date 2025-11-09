@@ -9,3 +9,152 @@
   border-bottom-left-radius: 20px;
   margin-bottom: 50px;
 }
+
+#server-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* BLOCO / SEÇÃO */
+.section-block {
+  width: 90%;
+  max-width: 850px;
+  background: #f7f9fc;
+  border-radius: 12px;
+  padding: 18px 22px;
+  margin-bottom: 28px;
+  box-shadow: 0 6px 18px rgba(4, 35, 88, 0.08);
+}
+
+.section-block h2 {
+  background: #042358;
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  margin-bottom: 18px;
+}
+
+/* Status */
+.status-ok,
+.status-missing {
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 6px;
+  display: inline-block;
+}
+
+.status-ok {
+  background: rgba(1, 195, 124, 0.15);
+  border: 1px solid #01c37c;
+  color: #015d40;
+}
+
+.status-missing {
+  background: rgba(237, 96, 0, 0.15);
+  border: 1px solid #ed9600;
+  color: #7a2c00;
+}
+
+/* Linhas de botões */
+.actions-line {
+  display: flex;
+  gap: 18px;
+  margin-top: 14px;
+}
+
+/* Usa o estilo do seu Button global */
+.add-btn {
+  border-radius: 5px;
+  border: 2px solid #01c37c;
+  transition: 0.2s;
+  color: #01c37c;
+  padding: 6px 14px;
+}
+.add-btn:hover {
+  background-color: #01c37c;
+  color: #fff;
+}
+
+.stop-btn-s {
+  border-radius: 5px;
+  border: 2px solid #dd1d1d;
+  transition: 0.2s;
+  color: #dd1d1d;
+  padding: 6px 14px;
+}
+
+.reload-btn {
+  border-radius: 5px;
+  border: 2px solid #258c2e;
+  transition: 0.2s;
+  color: #258c2e;
+  padding: 6px 14px;
+  margin-right: 15px;
+}
+
+.reload-btn:hover {
+  background-color: #258c2e;
+  color: #fff;
+}
+
+.clear-btn-s {
+  border-radius: 5px;
+  border: 2px solid #ed9600;
+  transition: 0.2s;
+  color: #ed9600;
+  padding: 6px 14px;
+}
+.clear-btn-s:hover {
+  background-color: #ed9600;
+  color: #fff;
+}
+
+/* Mensagens */
+.server-message,
+.error-msg {
+  margin-top: 10px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.server-message {
+  background: #e9f7ef;
+  color: #04522f;
+}
+
+.error-msg {
+  background: #fff0f0;
+  color: #8b1a1a;
+}
+
+.service-dot.online {
+  background: #25c26b; /* verde */
+}
+
+.service-dot.offline {
+  background: #e03b3b; /* vermelho */
+}
+
+.service-info {
+  display: flex;
+  flex-direction: column;
+  font-weight: 600;
+}
+
+.small-note {
+  font-size: 12px;
+  font-weight: 400;
+  color: #666;
+  margin-top: 2px;
+}
+
+/* organiza os botões na seção */
+.actions-line {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
