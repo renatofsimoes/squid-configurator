@@ -191,6 +191,9 @@ const ServerPage = () => {
     <div id="server-page">
       <h1>SERVIDOR</h1>
 
+      {message && <p className="server-message">{message}</p>}
+      {error && <p className="error-msg">{error}</p>}
+
       {/* Seção 1 - Controle do Squid */}
       <section className="section-block">
         <h2>Gerenciar Serviço Squid</h2>
@@ -272,9 +275,6 @@ const ServerPage = () => {
           )}
         </div>
       </section>
-
-      {message && <p className="server-message">{message}</p>}
-      {error && <p className="error-msg">{error}</p>}
     </div>
   );
 };
