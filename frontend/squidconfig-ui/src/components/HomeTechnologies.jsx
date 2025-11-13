@@ -2,7 +2,7 @@ import React from "react";
 import java from "../assets/java.webp";
 import spring from "../assets/spring.png";
 import html from "../assets/html-css-js.png";
-import reactJs from "../assets/reactJs.png";
+import reactJs from "../assets/reactJS.png";
 import "./HomeTechnologies.css";
 
 const HomeTechnologies = () => {
