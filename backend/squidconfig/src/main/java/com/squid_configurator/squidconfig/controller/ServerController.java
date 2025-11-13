@@ -97,5 +97,17 @@ public class ServerController {
             return ResponseEntity.internalServerError().body("Erro ao recarregar: " + e.getMessage());
         }
     }
+    
+    @GetMapping("/config")
+    public ResponseEntity<String> getSquidConfig() {
+        try {
+            String content = serverService.readSquidConf();
+            return ResponseEntity.ok(content);
+        } catch (IOException e) {
+            return ResponseEntity.internalServerError()
+                    .body("Erro ao ler squid.conf: " + e.getMessage());
+        }
+    }
+
 
 }

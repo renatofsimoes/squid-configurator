@@ -27,7 +27,7 @@ const NavBar = () => {
 
   return (
     <div id="navbar">
-      <Link to="/home">
+      <Link to="/home" id="logo-link">
         <img src={logo} alt="squid_configurator-logo" />
       </Link>
       <div id="navbar-buttons">
@@ -46,11 +46,7 @@ const NavBar = () => {
             }
           />
         </Link>
-
-        <Link to="/network-users">
-          <NavBarButton id="users-btn" text="CONTROLE DE USUÁRIOS" />
-        </Link>
-
+        <h3>Regras:</h3>
         <div id="rule-buttons">
           <Link to="/acls">
             <NavBarButton id="acls-btn" text="ACLs" />

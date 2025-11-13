@@ -43,10 +43,8 @@ const HomeDescription = () => {
           </p>
         </li>
         <li>
-          <h3>Autenticação de Usuários:</h3>
-          <p>
-            adicione e gerencie usuários, garantindo acesso controlado ao proxy.
-          </p>
+          <h3>Gerenciamento do Servidor:</h3>
+          <p>recarregue, inicie, reinicie e suspenda o Squid.</p>
         </li>
       </ul>
     </div>

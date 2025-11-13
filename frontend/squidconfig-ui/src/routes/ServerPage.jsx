@@ -13,6 +13,10 @@ const ServerPage = () => {
   const [message, setMessage] = useState(null);
   const [error, setError] = useState(null);
 
+  // novo estados para visualizar squid.conf
+  const [configText, setConfigText] = useState("");
+  const [configLoading, setConfigLoading] = useState(false);
+
   const API_BASE = "http://localhost:8080/server";
   const anyLoading =
     loading ||
@@ -25,7 +29,7 @@ const ServerPage = () => {
   const loadDenyAllStatus = async () => {
     setLoading(true);
     setError(null);
-    setMessage(null);
+    // não zerar message aqui para manter mensagens de sucesso
     try {
       const res = await fetch(`${API_BASE}/deny-all`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -51,16 +55,38 @@ const ServerPage = () => {
     } catch (err) {
       console.error("Erro ao verificar status do serviço:", err);
       setServiceRunning(false);
-      // não sobrescrever mensagem de regra
+      // não sobrescrever mensagem de regra existente
     } finally {
       setServiceLoading(false);
     }
   };
 
+  // novo: carrega conteúdo do squid.conf
+  const loadSquidConfig = async () => {
+    setConfigLoading(true);
+    setError(null);
+    try {
+      const res = await fetch(`${API_BASE}/config`);
+      if (!res.ok) {
+        const txt = await res.text().catch(() => "");
+        throw new Error(txt || `HTTP ${res.status}`);
+      }
+      const text = await res.text();
+      setConfigText(text);
+    } catch (err) {
+      console.error("Erro ao carregar squid.conf:", err);
+      setConfigText("");
+      setError("Erro ao carregar conteúdo do squid.conf.");
+    } finally {
+      setConfigLoading(false);
+    }
+  };
+
   useEffect(() => {
-    // carregar ambos os status ao montar
+    // carregar ambos os status ao montar, e o conteúdo do config
     loadDenyAllStatus();
     loadServiceStatus();
+    loadSquidConfig();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -78,6 +104,7 @@ const ServerPage = () => {
       }
       setMessage("Regra adicionada com sucesso.");
       await loadDenyAllStatus();
+      await loadSquidConfig(); // atualiza visualização após alteração
     } catch (err) {
       console.error("Erro ao adicionar regra:", err);
       setError("Erro ao adicionar regra.");
@@ -99,6 +126,7 @@ const ServerPage = () => {
       }
       setMessage("Regra removida com sucesso.");
       await loadDenyAllStatus();
+      await loadSquidConfig(); // atualiza visualização após alteração
     } catch (err) {
       console.error("Erro ao remover regra:", err);
       setError("Erro ao remover regra.");
@@ -119,6 +147,7 @@ const ServerPage = () => {
       if (!res.ok) throw new Error(txt || `HTTP ${res.status}`);
       setMessage(txt || "Serviço Squid iniciado.");
       await loadServiceStatus();
+      await loadSquidConfig(); // opcional: recarrega config view (não estraga)
     } catch (err) {
       console.error("Erro ao iniciar Squid:", err);
       setError("Erro ao iniciar o Squid.");
@@ -138,6 +167,7 @@ const ServerPage = () => {
       if (!res.ok) throw new Error(txt || `HTTP ${res.status}`);
       setMessage(txt || "Serviço Squid parado.");
       await loadServiceStatus();
+      await loadSquidConfig();
     } catch (err) {
       console.error("Erro ao parar Squid:", err);
       setError("Erro ao parar o Squid.");
@@ -159,6 +189,7 @@ const ServerPage = () => {
       setMessage(text || "Squid reiniciado.");
       await loadServiceStatus();
       await loadDenyAllStatus();
+      await loadSquidConfig();
     } catch (err) {
       console.error("Erro ao reiniciar Squid:", err);
       setError("Erro ao reiniciar Squid.");
@@ -179,6 +210,7 @@ const ServerPage = () => {
       setMessage(text || "Configuração recarregada.");
       await loadServiceStatus();
       await loadDenyAllStatus();
+      await loadSquidConfig();
     } catch (err) {
       console.error("Erro ao recarregar Squid:", err);
       setError("Erro ao recarregar Squid.");
@@ -274,6 +306,28 @@ const ServerPage = () => {
             />
           )}
         </div>
+      </section>
+
+      {/* Seção 3 - Visualizar Configuração */}
+      <section className="section-block">
+        <h2>Conteúdo do squid.conf</h2>
+
+        <div className="actions-line">
+          <Button
+            iClass="fas fa-refresh"
+            className="reload-btn"
+            onClick={loadSquidConfig}
+            disabled={configLoading || anyLoading}
+          />
+        </div>
+
+        {configLoading ? (
+          <p>Carregando...</p>
+        ) : configText ? (
+          <pre className="config-view">{configText}</pre>
+        ) : (
+          <p>Nenhum conteúdo carregado.</p>
+        )}
       </section>
     </div>
   );

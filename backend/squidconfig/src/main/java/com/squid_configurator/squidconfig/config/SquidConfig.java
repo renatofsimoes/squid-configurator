@@ -13,7 +13,7 @@ public class SquidConfig {
 
     @Bean
     Path configFilePath() {
-        return Paths.get("D:\\TCC-UNESP\\Squid-Configurator\\backend\\squidconfig\\teste_squid.conf");
+        return Paths.get("D:\\TCC-UNESP\\Squid-Configurator\\backend\\squidconfig\\teste_squid.conf"); // /etc/squid/squid.conf
     }
 
     @Bean

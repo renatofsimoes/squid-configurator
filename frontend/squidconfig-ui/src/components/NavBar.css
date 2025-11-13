@@ -8,14 +8,15 @@
 }
 #navbar img {
   width: 150px;
-  margin-left: 80px;
   cursor: pointer;
+}
+#logo-link {
+  margin-left: 160px;
 }
 
 #navbar-buttons {
   display: flex;
   align-items: center;
-  gap: 120px;
 }
 
 #users-btn,
@@ -40,6 +41,7 @@
   background-color: #fff;
   color: #042358;
   padding-right: 30px;
+  margin-left: 50px;
 }
 #server-btn:hover {
   border: 3px solid #042358;
@@ -51,7 +53,6 @@
   background-color: #042358;
   padding: 10px 30px;
   border-radius: 5px;
-  margin-left: 10px;
 }
 
 .server-link {
@@ -86,4 +87,21 @@
 #navbar-buttons a {
   text-decoration: none;
   color: inherit;
+}
+#navbar h3 {
+  margin-left: 160px;
+  margin-right: 10px;
+}
+
+@media (min-width: 1600px) {
+  #logo-link {
+    margin-right: 80px;
+  }
+  #navbar h3 {
+    margin-left: 300px;
+    margin-right: 10px;
+  }
+  #logo-link {
+    margin-left: 230px;
+  }
 }

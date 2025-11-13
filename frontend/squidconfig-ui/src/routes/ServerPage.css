@@ -158,3 +158,16 @@
   margin-top: 10px;
   flex-wrap: wrap;
 }
+
+.config-view {
+  background-color: #1e1e1e;
+  color: #dcdcdc;
+  padding: 1rem;
+  border-radius: 8px;
+  white-space: pre-wrap;
+  font-family: monospace;
+  max-height: 400px;
+  overflow-y: auto;
+  margin-top: 1rem;
+  border: 1px solid #333;
+}
