@@ -2,16 +2,6 @@ import React, { useEffect, useState } from "react";
 import Button from "./Button";
 import "./CacheRulesForm.css";
 
-/*
- Props suportados:
- - onBack()
- - onRuleCreated(payload)  -> quando modo "add" será chamado com o objeto retornado pelo POST
-                              quando modo "edit" será chamado com o payload (sem fazer POST),
-                              para que o parent trate delete+create.
- - initialRule: optional { type: "...", value: "..." }  -> para edição pré-preenchida
- - mode: "add" (default) | "edit"
-*/
-
 const CacheRulesForm = ({
   onBack,
   onRuleCreated,
@@ -57,16 +47,12 @@ const CacheRulesForm = ({
 
     try {
       if (mode === "edit") {
-        // Em modo edit: não executamos o POST aqui para evitar comportamento indesejado
-        // O parent deve receber o payload e executar delete(old) -> post(new)
         if (onRuleCreated) {
           await onRuleCreated(payload);
         }
         onBack();
         return;
       }
-
-      // modo "add": comportamento original (faz o POST)
       const res = await fetch("http://localhost:8080/cacherules", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

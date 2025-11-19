@@ -3,17 +3,16 @@ import "./ServerPage.css";
 import Button from "../components/Button";
 
 const ServerPage = () => {
-  const [exists, setExists] = useState(null); // deny-all status
-  const [loading, setLoading] = useState(false); // checking deny-all
-  const [actionLoading, setActionLoading] = useState(false); // add/remove deny-all
+  const [exists, setExists] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [actionLoading, setActionLoading] = useState(false);
   const [restartLoading, setRestartLoading] = useState(false);
   const [reloadLoading, setReloadLoading] = useState(false);
-  const [serviceLoading, setServiceLoading] = useState(false); // start/stop
-  const [serviceRunning, setServiceRunning] = useState(null); // null = unknown, true/false
+  const [serviceLoading, setServiceLoading] = useState(false);
+  const [serviceRunning, setServiceRunning] = useState(null);
   const [message, setMessage] = useState(null);
   const [error, setError] = useState(null);
 
-  // novo estados para visualizar squid.conf
   const [configText, setConfigText] = useState("");
   const [configLoading, setConfigLoading] = useState(false);
 
@@ -25,11 +24,9 @@ const ServerPage = () => {
     reloadLoading ||
     serviceLoading;
 
-  // checa se a linha "http_access deny all" existe
   const loadDenyAllStatus = async () => {
     setLoading(true);
     setError(null);
-    // não zerar message aqui para manter mensagens de sucesso
     try {
       const res = await fetch(`${API_BASE}/deny-all`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -44,7 +41,6 @@ const ServerPage = () => {
     }
   };
 
-  // checa se o serviço squid está rodando
   const loadServiceStatus = async () => {
     setServiceLoading(true);
     try {
@@ -55,13 +51,12 @@ const ServerPage = () => {
     } catch (err) {
       console.error("Erro ao verificar status do serviço:", err);
       setServiceRunning(false);
-      // não sobrescrever mensagem de regra existente
     } finally {
       setServiceLoading(false);
     }
   };
 
-  // novo: carrega conteúdo do squid.conf
+  //carrega conteúdo do squid.conf
   const loadSquidConfig = async () => {
     setConfigLoading(true);
     setError(null);
@@ -83,14 +78,11 @@ const ServerPage = () => {
   };
 
   useEffect(() => {
-    // carregar ambos os status ao montar, e o conteúdo do config
     loadDenyAllStatus();
     loadServiceStatus();
     loadSquidConfig();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // ADD / REMOVE deny-all
   const handleAddRule = async () => {
     if (!window.confirm("Adicionar 'http_access deny all'?")) return;
     setActionLoading(true);
@@ -104,7 +96,7 @@ const ServerPage = () => {
       }
       setMessage("Regra adicionada com sucesso.");
       await loadDenyAllStatus();
-      await loadSquidConfig(); // atualiza visualização após alteração
+      await loadSquidConfig();
     } catch (err) {
       console.error("Erro ao adicionar regra:", err);
       setError("Erro ao adicionar regra.");
@@ -126,7 +118,7 @@ const ServerPage = () => {
       }
       setMessage("Regra removida com sucesso.");
       await loadDenyAllStatus();
-      await loadSquidConfig(); // atualiza visualização após alteração
+      await loadSquidConfig();
     } catch (err) {
       console.error("Erro ao remover regra:", err);
       setError("Erro ao remover regra.");
@@ -135,7 +127,6 @@ const ServerPage = () => {
     }
   };
 
-  // START / STOP service
   const handleStartService = async () => {
     if (!window.confirm("Iniciar o serviço Squid?")) return;
     setServiceLoading(true);
@@ -147,7 +138,7 @@ const ServerPage = () => {
       if (!res.ok) throw new Error(txt || `HTTP ${res.status}`);
       setMessage(txt || "Serviço Squid iniciado.");
       await loadServiceStatus();
-      await loadSquidConfig(); // opcional: recarrega config view (não estraga)
+      await loadSquidConfig();
     } catch (err) {
       console.error("Erro ao iniciar Squid:", err);
       setError("Erro ao iniciar o Squid.");
@@ -176,7 +167,6 @@ const ServerPage = () => {
     }
   };
 
-  // RESTART / RELOAD (mantidos)
   const handleRestart = async () => {
     if (!window.confirm("Reiniciar o Squid agora?")) return;
     setRestartLoading(true);

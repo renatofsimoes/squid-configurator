@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import "./CacheRulesPage.css";
 import Button from "../components/Button";
 import CacheRule from "../components/CacheRule";
-import CacheRulesForm from "../components/CacheRulesForm"; // seu form
+import CacheRulesForm from "../components/CacheRulesForm";
 
 const CacheRulesPage = () => {
-  const [rules, setRules] = useState([]); // cada rule: { rawLine, type, params }
-  const [activeForm, setActiveForm] = useState(null); // null | "add" | "edit"
-  const [editingRule, setEditingRule] = useState(null); // objeto rule quando editar
+  const [rules, setRules] = useState([]);
+  const [activeForm, setActiveForm] = useState(null);
+  const [editingRule, setEditingRule] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -18,7 +18,7 @@ const CacheRulesPage = () => {
     try {
       const res = await fetch("http://localhost:8080/cacherules");
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const lines = await res.json(); // lista de strings
+      const lines = await res.json();
       const parsed = parseCacheLines(lines || []);
       setRules(parsed);
     } catch (err) {
@@ -33,8 +33,6 @@ const CacheRulesPage = () => {
     loadRules();
   }, []);
 
-  // parse simples: primeiro token = tipo (cache_dir, cache_mem, refresh_pattern, etc)
-  // restante = params (string)
   const parseCacheLines = (lines) =>
     lines.map((line) => {
       const trimmed = (line || "").trim();
@@ -45,7 +43,6 @@ const CacheRulesPage = () => {
       return { rawLine: line, type: typeToken, params, parts };
     });
 
-  // Chamar POST para criar nova regra (usado para edição: criar a nova regra)
   const createRule = async (rulePayload) => {
     const res = await fetch("http://localhost:8080/cacherules", {
       method: "POST",
@@ -59,7 +56,6 @@ const CacheRulesPage = () => {
     return await res.json().catch(() => null);
   };
 
-  // Chamar DELETE com body contendo a regra (conforme seu backend)
   const deleteRule = async (rulePayload) => {
     const res = await fetch("http://localhost:8080/cacherules", {
       method: "DELETE",
@@ -72,39 +68,30 @@ const CacheRulesPage = () => {
     }
   };
 
-  // Handler quando o form de criar chama onRuleCreated(created)
-  // aqui apenas recarregamos a lista (o form já fez o POST)
   const handleCreateFromForm = async (created /* pode ser null */) => {
     setActiveForm(null);
     await loadRules();
   };
 
-  // ---------------------------
-  // ALTERAÇÃO PRINCIPAL: edição
-  // Agora usamos PUT /cacherules/{directive} enviando o novo valor no body (text/plain)
-  // ---------------------------
   const handleEditSave = async (newPayload) => {
     if (!editingRule) return;
     try {
-      // directive for the URL: transform type (ex: "CACHE_MEM") -> "cache_mem"
-      const directivePath = newPayload.type.toLowerCase(); // matches getDirectivePrefix mapping
+      const directivePath = newPayload.type.toLowerCase();
 
       const res = await fetch(
         `http://localhost:8080/cacherules/${encodeURIComponent(directivePath)}`,
         {
           method: "PUT",
           headers: { "Content-Type": "text/plain" },
-          body: newPayload.value, // enviar apenas a string do novo valor
+          body: newPayload.value,
         }
       );
 
       if (!res.ok) {
-        // tenta extrair mensagem do corpo
         const text = await res.text().catch(() => null);
         throw new Error(text || `Erro ${res.status}`);
       }
 
-      // sucesso: recarrega a lista e limpa estado
       setEditingRule(null);
       setActiveForm(null);
       await loadRules();
@@ -121,11 +108,9 @@ const CacheRulesPage = () => {
     )
       return;
     try {
-      // normaliza o tipo para o formato do enum (REFRESH_PATTERN, CACHE_MEM, ...)
       const typeEnum = rule.type.replace(/-/g, "_").toUpperCase();
 
       await deleteRule({ type: typeEnum, value: rule.params });
-      // atualiza localmente sem recarregar tudo:
       setRules((prev) => prev.filter((r) => r.rawLine !== rule.rawLine));
     } catch (err) {
       alert(`Erro ao excluir: ${err.message}`);

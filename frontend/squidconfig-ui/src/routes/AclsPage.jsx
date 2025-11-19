@@ -36,12 +36,10 @@ const AclsPage = () => {
       .catch((err) => console.error("Erro ao buscar ACLs:", err));
   };
 
-  //Buscar ACLs ao carregar a página
   useEffect(() => {
     loadAcls();
   }, []);
 
-  //Função que transforma as linhas em objetos ACL
   const parseAcls = (lines) => {
     const aclMap = {};
 
@@ -69,7 +67,6 @@ const AclsPage = () => {
         line.toLowerCase().startsWith("url_rewrite_access") ||
         line.toLowerCase().startsWith("access_log")
       ) {
-        // Vincula a diretiva à ACL correspondente, se existir
         Object.keys(aclMap).forEach((aclName) => {
           if (line.includes(aclName)) {
             aclMap[aclName].directives.push(line);
@@ -81,7 +78,6 @@ const AclsPage = () => {
     return Object.values(aclMap);
   };
 
-  //Aplicar filtro por tipo
   const filteredAcls =
     selectedAclType === "all"
       ? acls

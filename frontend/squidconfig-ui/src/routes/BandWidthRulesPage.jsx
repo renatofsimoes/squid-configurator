@@ -5,10 +5,10 @@ import BandWidthRule from "../components/BandWidthRule";
 import BandWidthRulesForm from "../components/BandWidthRulesForm";
 
 const BandWidthRulesPage = () => {
-  const [groups, setGroups] = useState([]); // [{ poolId, lines: [...] }]
+  const [groups, setGroups] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [activeForm, setActiveForm] = useState(null); // null | "add"
+  const [activeForm, setActiveForm] = useState(null);
 
   useEffect(() => {
     loadRules();
@@ -20,7 +20,7 @@ const BandWidthRulesPage = () => {
     try {
       const res = await fetch("http://localhost:8080/bandwidthrules");
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const lines = await res.json(); // array de strings
+      const lines = await res.json();
       const parsed = parseBandWidthLines(lines || []);
       const grouped = groupByPool(parsed);
       setGroups(grouped);
@@ -32,18 +32,16 @@ const BandWidthRulesPage = () => {
     }
   };
 
-  // parse cada linha em { rawLine, directive, poolId, params, parts }
   const parseBandWidthLines = (lines) =>
     lines
       .map((raw) => {
         const line = (raw || "").trim();
         if (!line || line.startsWith("#")) return null;
         const parts = line.split(/\s+/);
-        const directive = parts[0]; // ex: delay_parameters, delay_class, delay_access, delay_pools
-        // poolId normalmente é o token logo após a diretiva (parts[1]) para class/parameters/access
+        const directive = parts[0];
         let poolId = null;
         if (directive === "delay_pools") {
-          poolId = "delay_pools"; // grupo especial
+          poolId = "delay_pools";
         } else if (parts.length >= 2) {
           poolId = parts[1];
         } else {
@@ -54,7 +52,6 @@ const BandWidthRulesPage = () => {
       })
       .filter(Boolean);
 
-  // agrupa por poolId (delay_pools fica em seu próprio grupo)
   const groupByPool = (parsedLines) => {
     const map = new Map();
     parsedLines.forEach((item) => {
@@ -62,7 +59,6 @@ const BandWidthRulesPage = () => {
       if (!map.has(key)) map.set(key, []);
       map.get(key).push(item);
     });
-    // transforma em array ordenado: delay_pools por cima, depois pools numéricos ordenados
     const arr = Array.from(map.entries()).map(([poolId, lines]) => ({
       poolId,
       lines,
@@ -94,7 +90,6 @@ const BandWidthRulesPage = () => {
         const txt = await res.text().catch(() => "");
         throw new Error(txt || `Erro ${res.status}`);
       }
-      // remove do state sem recarregar tudo
       setGroups((prev) => prev.filter((g) => g.poolId !== poolId));
     } catch (err) {
       alert(`Erro ao excluir regras do pool: ${err.message}`);
@@ -122,7 +117,6 @@ const BandWidthRulesPage = () => {
         throw new Error(txt || `Erro ${res.status}`);
       }
 
-      // limpa tudo da lista
       setGroups([]);
     } catch (err) {
       alert(`Erro ao remover delay_pools: ${err.message}`);

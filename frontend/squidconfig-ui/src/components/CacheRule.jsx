@@ -3,8 +3,6 @@ import "./CacheRule.css";
 import Button from "./Button";
 
 const CacheRule = ({ rule, onEdit, onDelete }) => {
-  // rule = { type, params } esperado
-  // params pode ser string ou array
   const params = Array.isArray(rule.params) ? rule.params : [rule.params];
 
   return (

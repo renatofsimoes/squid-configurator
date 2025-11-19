@@ -11,14 +11,13 @@ import com.squid_configurator.squidconfig.editor.AclFileEditor;
 @Configuration
 public class SquidConfig {
 
-    @Bean
-    Path configFilePath() {
-        return Paths.get("D:\\TCC-UNESP\\Squid-Configurator\\backend\\squidconfig\\teste_squid.conf"); // /etc/squid/squid.conf
-    }
+	@Bean
+	Path configFilePath() {
+		return Paths.get("D:\\TCC-UNESP\\Squid-Configurator\\backend\\squidconfig\\teste_squid.conf"); // /etc/squid/squid.conf
+	}
 
-    @Bean
-    AclFileEditor aclFileEditor(Path configFilePath) {
-        return new AclFileEditor(configFilePath);
-    }
+	@Bean
+	AclFileEditor aclFileEditor(Path configFilePath) {
+		return new AclFileEditor(configFilePath);
+	}
 }
-

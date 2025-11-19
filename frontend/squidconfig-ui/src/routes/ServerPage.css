@@ -16,7 +16,6 @@
   align-items: center;
 }
 
-/* BLOCO / SEÇÃO */
 .section-block {
   width: 90%;
   max-width: 850px;
@@ -35,7 +34,6 @@
   margin-bottom: 18px;
 }
 
-/* Status */
 .status-ok,
 .status-missing {
   font-weight: 600;
@@ -56,14 +54,12 @@
   color: #7a2c00;
 }
 
-/* Linhas de botões */
 .actions-line {
   display: flex;
   gap: 18px;
   margin-top: 14px;
 }
 
-/* Usa o estilo do seu Button global */
 .add-btn {
   border-radius: 5px;
   border: 2px solid #01c37c;
@@ -110,7 +106,6 @@
   color: #fff;
 }
 
-/* Mensagens */
 .server-message,
 .error-msg {
   margin-top: 10px;
@@ -130,11 +125,11 @@
 }
 
 .service-dot.online {
-  background: #25c26b; /* verde */
+  background: #25c26b;
 }
 
 .service-dot.offline {
-  background: #e03b3b; /* vermelho */
+  background: #e03b3b;
 }
 
 .service-info {
@@ -150,7 +145,6 @@
   margin-top: 2px;
 }
 
-/* organiza os botões na seção */
 .actions-line {
   display: flex;
   gap: 12px;
